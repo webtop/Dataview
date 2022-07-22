@@ -48,3 +48,5 @@
 /app/vendor/symfony/var-exporter/
 /app/vendor/symfony/yaml/
 /app/vendor/twig/twig/
+/data/
+/logs/

@@ -11,9 +11,9 @@
     const DB_PREF = '';
 
     // Database connection parameters, possibly from .env file...
-    $DB_HOST = getenv('DB_HOST') ?? 'localhost:64519';
+    $DB_HOST = getenv('DB_HOST') ?? 'localhost:8080';
     $DB_NAME = getenv('DB_NAME') ?? 'classicmodels';
-    $DB_USER = getenv('DB_USER') ?? 'root';
+    $DB_USER = getenv('DB_USER') ?? 'dataview';
     $DB_PASS = getenv('DB_PASS') ?? 'QnQbB8000$10';
 
     // ...so we set them up using defines from above.

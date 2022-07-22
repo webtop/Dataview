@@ -16,6 +16,11 @@ services:
       - ${PHP_INI}:/usr/local/etc/php/php.ini
       - ${VHOSTS_DIR}:/etc/apache2/sites-available
       - ${APACHE_LOG_DIR}:/var/log/apache2
+    environment:
+      DB_HOST: 'localhost'
+      DB_NAME: ${MYSQL_DATABASE}
+      DB_USER: ${MYSQL_USER}
+      DB_PASS: ${MYSQL_PASSWORD}
   mysql:
     build: bin/mysql
     container_name: '${PROJECT_NAME}-mysql'

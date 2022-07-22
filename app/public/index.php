@@ -1,19 +1,21 @@
 <?php
     declare(strict_types=1);
 
+    require_once __DIR__ . '/../src/bootstrap.php';
+
+    use App\Controller\BaseController;
     use DI\Container;
     use Sunrise\Http\Router\RequestHandler\QueueableRequestHandler;
     use Sunrise\Http\Router\Router;
     use Sunrise\Http\ServerRequest\ServerRequestFactory;
     use function Sunrise\Http\Router\emit;
 
-    require_once "../src/bootstrap.php";
-
     /** @var Container $container */
     try {
-        $router = $container->get(Router::class);
+        $router = $container->get('router');
         $handler = new QueueableRequestHandler($router);
         $request = ServerRequestFactory::fromGlobals();
+        //BaseController::PrettyPrint($container->get('twig'), true);
         $response = $handler->handle($request);
 
         emit($response);

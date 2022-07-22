@@ -11,8 +11,10 @@
     use Monolog\Logger;
     use Sunrise\Http\Router\Loader\DescriptorLoader;
     use Sunrise\Http\Router\Router;
+    use Twig\Environment;
+    use Twig\Loader\FilesystemLoader;
 
-    return (function() : Container {
+    return (function(): Container {
         $builder = new ContainerBuilder();
         $builder->useAutowiring(true);
         $builder->useAnnotations(true);
@@ -32,41 +34,49 @@
                 'root' => ROOT,
                 'log_root' => LOG_ROOT,
             ],
-            'logger' => function () {
+            'logger' => function() {
                 $logger = new Logger('dataview');
                 $logger->pushHandler(new StreamHandler(LOG_ROOT . 'dataview.log', Logger::DEBUG));
                 return $logger;
             },
-            'entity_manager' => function ($container) {
+            'entity_manager' => function($container) {
                 $db_params = [
-                    'dbname' => $container->get('config')['db_name'],
-                    'user' => $container->get('config')['db_user'],
-                    'password' => $container->get('config')['db_pass'],
-                    'host' => $container->get('config')['db_host'],
+                    'dbname' => DB_NAME,
+                    'user' => DB_USER,
+                    'password' => DB_PASS,
+                    'host' => DB_HOST,
                     'driver' => 'pdo_mysql'
                 ];
 
                 $config = Setup::createAnnotationMetadataConfiguration(
-                    [
-                        $container->get('config')['entity_path']],
-                        $container->get('config')['is_dev_mode'],
-                        $container->get('config')['proxy_path'],
-                        $container->get('config')['cache'],
-                        $container->get('config')['annotation_reader'
-                    ]
+                    [ENTITY_PATH],
+                    IS_DEV_MODE,
+                    PROXY_PATH,
+                    CACHE,
+                    ANNOTATION_READER
                 );
                 $conn_obj = DriverManager::getConnection($db_params);
                 return EntityManager::create($conn_obj, $config);
             },
-            'router' => function ($container) {
+            'router' => function($container) {
                 AnnotationRegistry::registerLoader('class_exists');
 
                 $loader = new DescriptorLoader();
-                $loader->setContainer($container);
+                //$loader->setContainer($container);
                 $loader->attach('../src/Controller');
                 $router = new Router();
                 $router->load($loader);
                 return $router;
+            },
+            'twig' => function($container) {
+                $twig = new Environment(
+                    new FilesystemLoader(ROOT . '/src/View'),
+                    [
+                        'cache' => CACHE_PATH,
+                        'debug' => IS_DEV_MODE,
+                    ]
+                );
+                return $twig;
             },
         ]);
 

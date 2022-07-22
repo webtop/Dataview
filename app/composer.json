@@ -26,7 +26,8 @@
   },
   "autoload": {
       "psr-4": {
-          "DigitalPig\\DataView\\": "src/"
+          "App\\": "src/",
+          "App\\Controller\\": "src/Controller/"
       }
   }
 }
