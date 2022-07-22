@@ -1,0 +1,32 @@
+{
+  "name": "digital_pig/dataview",
+  "description": "Simple MySQL table viewer and query builder",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "paul.allsopp",
+      "email": "paul.allsopp@digital-pig.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.0.0.0",
+    "php-di/php-di": "dev-master",
+    "ext-pdo": "*",
+    "monolog/monolog": "2.x-dev",
+    "doctrine/orm": "^2.11.0",
+    "doctrine/dbal": "^3.2",
+    "doctrine/annotations": "1.13.2",
+    "symfony/yaml": "^5.4",
+    "symfony/cache": "^5.4",
+    "twig/twig": "^3.0",
+    "sunrise/http-server-request": "dev-master",
+    "sunrise/http-message": "^2.1",
+    "sunrise/http-router": "^2.15"
+  },
+  "autoload": {
+      "psr-4": {
+          "DigitalPig\\DataView\\": "src/"
+      }
+  }
+}
