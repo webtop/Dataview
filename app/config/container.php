@@ -1,6 +1,7 @@
 <?php
     declare(strict_types=1);
 
+    use App\Controller\BaseController;
     use DI\Container;
     use DI\ContainerBuilder;
     use Doctrine\Common\Annotations\AnnotationRegistry;
@@ -19,12 +20,7 @@
         $builder->useAutowiring(true);
         $builder->useAnnotations(true);
         $builder->addDefinitions([
-            'config' => [
-                'db_host' => DB_HOST,
-                'db_name' => DB_NAME,
-                'db_user' => DB_USER,
-                'db_pass' => DB_PASS,
-                'db_pref' => DB_PREF,
+            'Config' => [
                 'is_dev_mode' => IS_DEV_MODE,
                 'cache' => CACHE,
                 'annotation_reader' => ANNOTATION_READER,
@@ -34,12 +30,12 @@
                 'root' => ROOT,
                 'log_root' => LOG_ROOT,
             ],
-            'logger' => function() {
+            Logger::class => function(): Logger {
                 $logger = new Logger('dataview');
                 $logger->pushHandler(new StreamHandler(LOG_ROOT . 'dataview.log', Logger::DEBUG));
                 return $logger;
             },
-            'entity_manager' => function($container) {
+            EntityManager::class => function(): EntityManager {
                 $db_params = [
                     'dbname' => DB_NAME,
                     'user' => DB_USER,
@@ -58,17 +54,17 @@
                 $conn_obj = DriverManager::getConnection($db_params);
                 return EntityManager::create($conn_obj, $config);
             },
-            'router' => function($container) {
+            Router::class => function($container): Router {
                 AnnotationRegistry::registerLoader('class_exists');
 
                 $loader = new DescriptorLoader();
-                //$loader->setContainer($container);
+                $loader->setContainer($container);
                 $loader->attach('../src/Controller');
                 $router = new Router();
                 $router->load($loader);
                 return $router;
             },
-            'twig' => function($container) {
+            Environment::class => function($container): Environment {
                 $twig = new Environment(
                     new FilesystemLoader(ROOT . '/src/View'),
                     [
@@ -77,6 +73,9 @@
                     ]
                 );
                 return $twig;
+            },
+            BaseController::class => function($container): BaseController {
+                return new \App\Controller\BaseController($container);
             },
         ]);
 

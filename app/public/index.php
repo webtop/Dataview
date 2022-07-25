@@ -5,6 +5,7 @@
 
     use App\Controller\BaseController;
     use DI\Container;
+    use Monolog\Logger;
     use Sunrise\Http\Router\RequestHandler\QueueableRequestHandler;
     use Sunrise\Http\Router\Router;
     use Sunrise\Http\ServerRequest\ServerRequestFactory;
@@ -12,10 +13,10 @@
 
     /** @var Container $container */
     try {
-        $router = $container->get('router');
+        $router = $container->get(Router::class);
         $handler = new QueueableRequestHandler($router);
         $request = ServerRequestFactory::fromGlobals();
-        //BaseController::PrettyPrint($container->get('twig'), true);
+        //BaseController::PrettyPrint($container->get('router'), true);
         $response = $handler->handle($request);
 
         emit($response);
@@ -28,7 +29,7 @@
 
     } catch (\DI\DependencyException|\DI\NotFoundException $e) {
         try {
-            $container->get('logger')->error($e->getMessage());
+            $container->get(Logger::class)->error($e->getMessage());
         } catch (Exception $e) {
             trigger_error($e->getMessage());
         }

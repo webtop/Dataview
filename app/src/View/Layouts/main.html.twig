@@ -5,36 +5,42 @@
     <title>{{ title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
-<body>
+<body class="container">
 
-    <header class="container">
-        <div class="row">
+    <header>
+        <div class="row mt-4">
             <div class="col-md-12">
                 {% block header %}
+                    {% include 'Partials/header.html.twig' %}
                 {% endblock %}
             </div>
         </div>
     </header>
 
-    <div id="main" class="container">
+    <div id="main" class="mt-4">
         <div class="row">
             <div class="col-md-12">
                 {% block content %}
+                    This seems to be working
                 {% endblock %}
             </div>
         </div>
     </div>
 
-    <footer class="container">
+    <footer>
         <div class="row">
             <div class="col-md-12">
                 {% block footer %}
+                    {% include 'Partials/footer.html.twig' %}
                 {% endblock %}
             </div>
         </div>
     </footer>
 
     <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>
