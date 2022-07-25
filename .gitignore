@@ -50,3 +50,5 @@
 /app/vendor/twig/twig/
 /data/
 /logs/
+/app/temp/
+.env

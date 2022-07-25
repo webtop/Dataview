@@ -8,7 +8,6 @@ services:
     restart: 'always'
     ports:
       - ${PHP_HTTP_PORT}:80
-      - ${PHP_SSL_PORT}:443
     links:
       - mysql
     volumes:
@@ -16,14 +15,15 @@ services:
       - ${PHP_INI}:/usr/local/etc/php/php.ini
       - ${VHOSTS_DIR}:/etc/apache2/sites-available
       - ${APACHE_LOG_DIR}:/var/log/apache2
-      - ${PHP_PDO_INSTALL}:/root/php-pdo-install.sh
+      - ${BASH_RC}:/root/.bashrc
     environment:
       DB_HOST: '127.0.0.1'
       DB_NAME: ${MYSQL_DATABASE}
       DB_USER: ${MYSQL_USER}
       DB_PASS: ${MYSQL_PASSWORD}
   mysql:
-    build: bin/mysql
+    build:
+      context: bin/mysql
     container_name: '${PROJECT_NAME}-mysql'
     restart: 'always'
     ports:
