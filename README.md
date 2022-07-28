@@ -8,3 +8,4 @@ This project is just for my personal edification of PHP8, and not meant as anyth
 
 # ToDo
 Wiki - write docs on creating and containerizing a PHP project
+Includes: Twig, Bootstrap, Monolog, Doctrine, Subshine
