@@ -4,33 +4,37 @@ body .w-32 {
 body .h-32 {
   height: 32px;
 }
-
-header form {
+body header form {
   border: 1px solid #a1a1a1;
   border-radius: 5px;
   box-shadow: 0 0 4px #a1a1a1;
   height: 100px;
 }
-header form button {
+body header form button {
   margin: 24px 0;
 }
-header div#db_state_container {
+body header div#db_state_container {
   text-align: center;
 }
-header i#db_online_state {
+body header i#db_online_state {
   font-size: 2rem;
 }
-header i#db_online_state[data-state=offline] {
+body header i#db_online_state[data-state=offline] {
   color: #000000;
 }
-header i#db_online_state[data-state=connectable] {
+body header i#db_online_state[data-state=connectable] {
   color: #ffc107;
 }
-header i#db_online_state[data-state=online] {
+body header i#db_online_state[data-state=online] {
   color: #29da88;
 }
-
-footer {
+body div#main table {
+  border: 1px solid #a1a1a1;
+  border-radius: 5px;
+  box-shadow: 0 0 4px #a1a1a1;
+  width: 92%;
+}
+body footer {
   position: fixed;
   bottom: 0;
   left: 0;

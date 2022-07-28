@@ -218,6 +218,20 @@
         }
 
         /**
+         * Return the combined address.
+         * @return string
+         */
+        public function getAddress(): string
+        {
+            $addr2 = empty($this->addressLine2) ? '' : ', ' . $this->addressLine2;
+            return $this->addressLine1 . $addr2 .
+                ', ' . $this->city .
+                ', ' . $this->postalCode .
+                ', ' . $this->state .
+                ', ' . $this->country;
+        }
+
+        /**
          * Set addressLine1.
          *
          * @param string $addressLine1

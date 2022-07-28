@@ -145,9 +145,7 @@
             $model = new $model_name($this->entityManager);
             $items = $model->getAll($from, $per_page);
             return $this->render([
-                'title' => 'Data',
-                'items' => $items,
-                'db_loaded' => $this->getIsDbLoaded(),
+                'items' => $items
             ], [],true);
         }
     }

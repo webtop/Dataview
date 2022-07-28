@@ -20,19 +20,17 @@
             $this->entityManager = $entityManager;
         }
 
-        public function getAll(int $per_page, int $from): array {
+        public function getAll(int $from, int $per_page): array {
             $customers = [];
             $table = $this->entityManager->getRepository(Customers::class);
-            $entities = $table->findAll();
+            $entities = $table->findBy([], ['customerName' => 'ASC'], $per_page, $from);
             foreach ($entities as $entity) {
                 $customers[] = [
-                    'id' => $entity->getId(),
-                    'name' => $entity->getName(),
-                    'email' => $entity->getEmail(),
-                    'phone' => $entity->getPhone(),
-                    'address' => $entity->getAddress(),
-                    'created_at' => $entity->getCreatedAt(),
-                    'updated_at' => $entity->getUpdatedAt(),
+                    '#' => $entity->getCustomerNumber(),
+                    'Name' => $entity->getCustomerName(),
+                    'Contact' => $entity->getContactFirstname() . ' ' . $entity->getContactLastname(),
+                    'Phone' => $entity->getPhone(),
+                    'Address' => $entity->getAddress()
                 ];
             }
             return $customers;

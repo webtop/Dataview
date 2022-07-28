@@ -1,4 +1,4 @@
-<form class="row row-cols-lg-auto align-content-center" id="table_selector">
+<form class="row align-content-center" id="table_selector">
     <div class="col">
         <label class="text-center" for="table_selector">Table: </label>
         <select class="form-select" id="table_selector">
@@ -8,7 +8,11 @@
             {% endfor %}
         </select>
     </div>
-    <div class="col">
-        <button type="button" class="btn btn-primary" id="disconnect">Disconnect</button>
+    <div class="col-md-6 invisible" id="table_nav_buttons">
+        <button type="button" class="btn btn-primary" id="next">Next 20 Results</button>
+        <button type="button" class="btn btn-primary" id="previous">Previous 20 Results</button>
+    </div>
+    <div class="col me-3">
+        <button type="button" class="btn btn-warning float-end" id="disconnect">Disconnect</button>
     </div>
 </form>
