@@ -17,7 +17,7 @@ services:
       - ${APACHE_LOG_DIR}:/var/log/apache2
       - ${BASH_RC}:/root/.bashrc
     environment:
-      DB_HOST: '127.0.0.1'
+      DB_HOST: ${MYSQL_HOST}
       DB_NAME: ${MYSQL_DATABASE}
       DB_USER: ${MYSQL_USER}
       DB_PASS: ${MYSQL_PASSWORD}

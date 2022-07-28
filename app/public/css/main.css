@@ -1,3 +1,10 @@
+body .w-32 {
+  width: 32px;
+}
+body .h-32 {
+  height: 32px;
+}
+
 header form {
   border: 1px solid #a1a1a1;
   border-radius: 5px;
@@ -6,6 +13,21 @@ header form {
 }
 header form button {
   margin: 24px 0;
+}
+header div#db_state_container {
+  text-align: center;
+}
+header i#db_online_state {
+  font-size: 2rem;
+}
+header i#db_online_state[data-state=offline] {
+  color: #000000;
+}
+header i#db_online_state[data-state=connectable] {
+  color: #ffc107;
+}
+header i#db_online_state[data-state=online] {
+  color: #29da88;
 }
 
 footer {

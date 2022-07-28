@@ -338,12 +338,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "25c27dd7d7bad231ded889785581f1f2694f1362"
+                "reference": "3ae5312bbd0b5fe271e90ca8d957038d14e1c840"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/25c27dd7d7bad231ded889785581f1f2694f1362",
-                "reference": "25c27dd7d7bad231ded889785581f1f2694f1362",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/3ae5312bbd0b5fe271e90ca8d957038d14e1c840",
+                "reference": "3ae5312bbd0b5fe271e90ca8d957038d14e1c840",
                 "shasum": ""
             },
             "require": {
@@ -441,7 +441,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-16T21:06:03+00:00"
+            "time": "2022-07-25T21:10:07+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -820,12 +820,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "2da28703e303ac2671480ca27d9413b78a0fe78d"
+                "reference": "7684cea8efc3f9c5b7bfe9ed4c609d4bcf60785b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/2da28703e303ac2671480ca27d9413b78a0fe78d",
-                "reference": "2da28703e303ac2671480ca27d9413b78a0fe78d",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/7684cea8efc3f9c5b7bfe9ed4c609d4bcf60785b",
+                "reference": "7684cea8efc3f9c5b7bfe9ed4c609d4bcf60785b",
                 "shasum": ""
             },
             "require": {
@@ -912,7 +912,7 @@
                 "issues": "https://github.com/doctrine/orm/issues",
                 "source": "https://github.com/doctrine/orm/tree/2.13.x"
             },
-            "time": "2022-07-19T21:13:51+00:00"
+            "time": "2022-07-25T18:54:31+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -1138,12 +1138,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "5579edf28aee1190a798bfa5be8bc16c563bd524"
+                "reference": "720488632c590286b88b80e62aa3d3d551ad4a50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/5579edf28aee1190a798bfa5be8bc16c563bd524",
-                "reference": "5579edf28aee1190a798bfa5be8bc16c563bd524",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/720488632c590286b88b80e62aa3d3d551ad4a50",
+                "reference": "720488632c590286b88b80e62aa3d3d551ad4a50",
                 "shasum": ""
             },
             "require": {
@@ -1163,11 +1163,10 @@
                 "guzzlehttp/psr7": "^2.2",
                 "mongodb/mongodb": "^1.8",
                 "php-amqplib/php-amqplib": "~2.4 || ^3",
-                "php-console/php-console": "^3.1.3",
                 "phpspec/prophecy": "^1.15",
                 "phpstan/phpstan": "^0.12.91",
                 "phpunit/phpunit": "^8.5.14",
-                "predis/predis": "^1.1",
+                "predis/predis": "^1.1 || ^2.0",
                 "rollbar/rollbar": "^1.3 || ^2 || ^3",
                 "ruflin/elastica": "^7",
                 "swiftmailer/swiftmailer": "^5.3|^6.0",
@@ -1187,7 +1186,6 @@
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
                 "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
                 "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
-                "php-console/php-console": "Allow sending log messages to Google Chrome",
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
                 "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
@@ -1222,7 +1220,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.7.0"
+                "source": "https://github.com/Seldaek/monolog/tree/2.8.0"
             },
             "funding": [
                 {
@@ -1234,7 +1232,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-09T08:59:12+00:00"
+            "time": "2022-07-24T11:55:47+00:00"
         },
         {
             "name": "php-di/invoker",
@@ -2442,12 +2440,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "e84689bc9a62fc389d173605985f2b12974fbb12"
+                "reference": "09b8e50f09bf0e5bbde9b61b19d7f53751114725"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/e84689bc9a62fc389d173605985f2b12974fbb12",
-                "reference": "e84689bc9a62fc389d173605985f2b12974fbb12",
+                "url": "https://api.github.com/repos/symfony/console/zipball/09b8e50f09bf0e5bbde9b61b19d7f53751114725",
+                "reference": "09b8e50f09bf0e5bbde9b61b19d7f53751114725",
                 "shasum": ""
             },
             "require": {
@@ -2529,7 +2527,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-07T07:36:45+00:00"
+            "time": "2022-07-22T14:17:38+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -3262,12 +3260,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "021c3ee948bd4ab2162b5250c2f0dd6d4e1c0c3e"
+                "reference": "042b6bf0f6ccca6d456a0572eb788cfb8b1ff809"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/021c3ee948bd4ab2162b5250c2f0dd6d4e1c0c3e",
-                "reference": "021c3ee948bd4ab2162b5250c2f0dd6d4e1c0c3e",
+                "url": "https://api.github.com/repos/symfony/string/zipball/042b6bf0f6ccca6d456a0572eb788cfb8b1ff809",
+                "reference": "042b6bf0f6ccca6d456a0572eb788cfb8b1ff809",
                 "shasum": ""
             },
             "require": {
@@ -3339,7 +3337,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-27T17:10:44+00:00"
+            "time": "2022-07-27T15:50:26+00:00"
         },
         {
             "name": "symfony/var-exporter",

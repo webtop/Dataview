@@ -2,7 +2,7 @@
 
     declare(strict_types=1);
 
-    namespace Entities;
+    namespace App\Entity;
 
     use Doctrine\ORM\Mapping as ORM;
 
@@ -42,7 +42,7 @@
          *
          * @ORM\Id
          * @ORM\GeneratedValue(strategy="NONE")
-         * @ORM\OneToOne(targetEntity="\\Customers")
+         * @ORM\OneToOne(targetEntity="\App\Entity\Customers")
          * @ORM\JoinColumns({
          *   @ORM\JoinColumn(name="customerNumber", referencedColumnName="customerNumber")
          * })

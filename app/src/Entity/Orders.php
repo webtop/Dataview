@@ -2,11 +2,11 @@
 
     declare(strict_types=1);
 
-    namespace Entities;
+    namespace App\Entity;
 
     use Doctrine;
     use Doctrine\ORM\Mapping as ORM;
-    use Entities;
+    use App\Entity;
 
     /**
      * Orders
@@ -63,7 +63,7 @@
         /**
          * @var Customers
          *
-         * @ORM\ManyToOne(targetEntity="\\Customers")
+         * @ORM\ManyToOne(targetEntity="\App\Entity\Customers")
          * @ORM\JoinColumns({
          *   @ORM\JoinColumn(name="customerNumber", referencedColumnName="customerNumber")
          * })
@@ -73,7 +73,7 @@
         /**
          * @var Doctrine\Common\Collections\Collection
          *
-         * @ORM\ManyToMany(targetEntity="\\Products", inversedBy="ordernumber")
+         * @ORM\ManyToMany(targetEntity="\App\Entity\Products", inversedBy="ordernumber")
          * @ORM\JoinTable(name="orderdetails",
          *   joinColumns={
          *	 @ORM\JoinColumn(name="orderNumber", referencedColumnName="orderNumber")
@@ -254,7 +254,7 @@
          *
          * @return Orders
          */
-        public function addProductcode(Entities\Products $productcode): self
+        public function addProductcode(Entity\Products $productcode): self
         {
             $this->productcode[] = $productcode;
 
@@ -268,7 +268,7 @@
          *
          * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
          */
-        public function removeProductcode(Entities\Products $productcode)
+        public function removeProductcode(Entity\Products $productcode)
         {
             return $this->productcode->removeElement($productcode);
         }

@@ -1,7 +1,7 @@
 <form class="row row-cols-lg-auto align-content-center" id="db_connect">
     <div class="col">
         <label class="text-center" for="server">Server IP: </label>
-        <input type="text" class="form-control" id="server" name="server" placeholder="localhost or 127.0.0.1" value="localhost">
+        <input type="text" class="form-control" id="server" name="server" placeholder="localhost or 127.0.0.1" value="dataview-mysql">
     </div>
     <div class="col">
         <label class="text-center" for="username">Username: </label>
@@ -19,6 +19,15 @@
         <button type="button" class="btn btn-primary" id="test">Test Connection</button>
     </div>
     <div class="col">
-        <button type="submit" class="btn btn-primary" id="connect">Connect</button>
+        <button type="button" class="btn btn-primary" id="connect">Connect</button>
     </div>
 </form>
+<div class="row" data-bs-toggle="collapse" data-bs-target="#db_error" id="error_container">
+    <div class="col">
+        <div class="collapse alert alert-danger" id="db_error" role="alert">
+            <strong>Error!</strong>
+            <span id="db_error_message"></span>
+            <i class="float-end">Will self close</i>
+        </div>
+    </div>
+</div>

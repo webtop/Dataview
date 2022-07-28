@@ -1,0 +1,14 @@
+<form class="row row-cols-lg-auto align-content-center" id="table_selector">
+    <div class="col">
+        <label class="text-center" for="table_selector">Table: </label>
+        <select class="form-select" id="table_selector">
+            <option value="">Select table</option>
+            {% for table in tables %}
+            <option value="{{ table }}">{{ table }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col">
+        <button type="button" class="btn btn-primary" id="disconnect">Disconnect</button>
+    </div>
+</form>

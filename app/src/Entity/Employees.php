@@ -2,7 +2,7 @@
 
     declare(strict_types=1);
 
-    namespace Entities;
+    namespace App\Entity;
 
     use Doctrine\ORM\Mapping as ORM;
 
@@ -61,7 +61,7 @@
         /**
          * @var Offices
          *
-         * @ORM\ManyToOne(targetEntity="\\Offices")
+         * @ORM\ManyToOne(targetEntity="\App\Entity\Offices")
          * @ORM\JoinColumns({
          *   @ORM\JoinColumn(name="officeCode", referencedColumnName="officeCode")
          * })
@@ -71,7 +71,7 @@
         /**
          * @var Employees
          *
-         * @ORM\ManyToOne(targetEntity="\\Employees")
+         * @ORM\ManyToOne(targetEntity="\App\Entity\Employees")
          * @ORM\JoinColumns({
          *   @ORM\JoinColumn(name="reportsTo", referencedColumnName="employeeNumber")
          * })

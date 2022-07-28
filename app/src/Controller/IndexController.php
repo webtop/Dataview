@@ -5,7 +5,12 @@
     namespace App\Controller;
 
     use App\Controller\BaseController;
-    use mysqli;
+    use Doctrine\Common\Collections\Criteria;
+    use Doctrine\Inflector\Inflector;
+    use Doctrine\Inflector\InflectorFactory;
+    use Psr\Container\ContainerExceptionInterface;
+    use Psr\Container\ContainerInterface;
+    use Psr\Container\NotFoundExceptionInterface;
     use Sunrise\Http\Router\Annotation as Mapping;
     use Sunrise\Http\ServerRequest\ServerRequest as Request;
     use Sunrise\Http\Message\Response as Response;
@@ -24,7 +29,57 @@
         #[Mapping\Route('home', path: '/home')]
         public function home(Request $request): Response
         {
-            return $this->render('index.html.twig');
+            return $this->render('index.html.twig', [
+                'title' => 'Home',
+                'db_loaded' => $this->getIsDbLoaded(),
+            ]);
+        }
+
+        /**
+         * @throws RuntimeError
+         * @throws SyntaxError
+         * @throws LoaderError
+         */
+        #[Mapping\Route('connect_database', path: '/connect', method: 'POST')]
+        public function connectDatabase(Request $request): Response
+        {
+            $db_params = $this->validateDatabaseParams($request);
+            if (!empty($db_params)) {
+                $result = $this->performConnectionTest($db_params);
+                if ($result[0] === true) {
+                    $this->saveConfig('db', $db_params);
+                    $success = true;
+                    $message = 'Database connection successful!';
+                } else {
+                    $success = false;
+                    $message = $result[1];
+                }
+            } else {
+                $success = false;
+                $message = 'Please fill in all fields!';
+            }
+            $this->setIsDbLoaded($success);
+
+            return $this->render([
+                'success' => $success,
+                'message' => $message
+            ], [], true);
+        }
+
+        /**
+         * @throws SyntaxError
+         * @throws RuntimeError
+         * @throws LoaderError
+         */
+        #[Mapping\Route('disconnect_database', path: '/disconnect', method: 'GET')]
+        public function disconnectDatabase(Request $request): Response
+        {
+            $this->setIsDbLoaded(false);
+            $this->saveConfig('db', []);
+            return $this->render([
+                'success' => true,
+                'message' => 'Database connection closed!'
+            ], [], true);
         }
 
         /**
@@ -36,58 +91,63 @@
         #[Mapping\Route('test_database', path: '/test_database', method: 'POST')]
         public function testDatabase(Request $request): Response
         {
-            $this->logger->info('Testing database connection');
-            // Check for valid request parameters
-            $original_string = $request->getParsedBody()['connection'];
-            $query_string = strip_tags(addslashes($original_string ?? ''));
-            if (empty($query_string)) {
-                $this->logger->error('Query string provided was unsafe or empty');
-                return $this->render('Partials/db_conn_test.html.twig', [
-                    'db_loaded' => false,
+            $db_params = $this->validateDatabaseParams($request);
+            if (empty($db_params)) {
+                return $this->render([
+                    'success' => false,
                     'message' => 'No query string provided'
-                ], false, 400);
+                ], [], true, 400);
             }
-            // Params should now be clean, so we can perform a connection test
-            parse_str($query_string, $db_params);
-            $db_params = array_map('trim', $db_params);
             $result = [0, ''];
             try {
-                $result = $this->performConnectionTest(
-                    $db_params['server'], $db_params['username'],
-                    $db_params['password'], $db_params['database']
-                );
+                $result = $this->performConnectionTest($db_params);
                 $message = $result[1];
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
                 $message = $e->getMessage();
             }
 
-            return $this->render('Partials/db_conn_test.html.twig', [
-                'db_loaded' => (int)$result[0],
+            return $this->render([
+                'success' => $result[0],
                 'message' => $message
+            ], [], true);
+        }
+
+        /**
+         * @throws SyntaxError
+         * @throws RuntimeError
+         * @throws LoaderError
+         * @throws \Throwable
+         */
+        #[Mapping\Route('show_tables', path: '/data', method: 'GET')]
+        public function getTables(Request $request): Response
+        {
+            $tables = (new TableController)->getTables($this->entityManager);
+            return $this->render('Layouts/main.html.twig', [
+                'title' => 'Data',
+                'tables' => $tables,
+                'db_loaded' => $this->getIsDbLoaded(),
             ]);
         }
 
         /**
-         * Tests the connection to the server, and then to the database.
-         * @param string $server
-         * @param string $user
-         * @param string $pass
-         * @param string $db_name
-         * @return array [bool, string]
+         * @throws SyntaxError
+         * @throws RuntimeError
+         * @throws LoaderError
          */
-        private function performConnectionTest(string $server, string $user, string $pass, string $db_name): array
+        #[Mapping\Route('show_table', path: '/data/{table}', method: 'GET')]
+        public function showTable(Request $request): Response
         {
-            try {
-                $conn = new \PDO(
-                    "mysql:host={$server};dbname={$db_name}",
-                    $user,
-                    $pass,
-                    ['charset' => 'utf8']
-                );
-            } catch (\PDOException $e) {
-                return [false, $e->getMessage()];
-            }
-            return [true, 'Connection test successful'];
+            $from = 0;
+            $per_page = 20;
+            $inflector = InflectorFactory::create()->build();
+            $model_name = '\App\Model\\' . $inflector->singularize($request->getAttribute('table'));
+            $model = new $model_name($this->entityManager);
+            $items = $model->getAll($from, $per_page);
+            return $this->render([
+                'title' => 'Data',
+                'items' => $items,
+                'db_loaded' => $this->getIsDbLoaded(),
+            ], [],true);
         }
     }

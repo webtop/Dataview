@@ -2,7 +2,7 @@
 
     declare(strict_types=1);
 
-    namespace Entities;
+    namespace App\Entity;
 
     use Doctrine\ORM\Mapping as ORM;
 
@@ -21,176 +21,176 @@
          * @ORM\Id
          * @ORM\GeneratedValue(strategy="IDENTITY")
          */
-        private $customernumber;
+        private int $customerNumber;
 
         /**
          * @var string
          *
          * @ORM\Column(name="customerName", type="string", length=50, nullable=false)
          */
-        private $customername;
+        private string $customerName;
 
         /**
          * @var string
          *
          * @ORM\Column(name="contactLastName", type="string", length=50, nullable=false)
          */
-        private $contactlastname;
+        private string $contactLastname;
 
         /**
          * @var string
          *
          * @ORM\Column(name="contactFirstName", type="string", length=50, nullable=false)
          */
-        private $contactfirstname;
+        private string $contactFirstname;
 
         /**
          * @var string
          *
          * @ORM\Column(name="phone", type="string", length=50, nullable=false)
          */
-        private $phone;
+        private string $phone;
 
         /**
          * @var string
          *
          * @ORM\Column(name="addressLine1", type="string", length=50, nullable=false)
          */
-        private $addressline1;
+        private string $addressLine1;
 
         /**
          * @var string|null
          *
          * @ORM\Column(name="addressLine2", type="string", length=50, nullable=true)
          */
-        private $addressline2;
+        private ?string $addressLine2;
 
         /**
          * @var string
          *
          * @ORM\Column(name="city", type="string", length=50, nullable=false)
          */
-        private $city;
+        private string $city;
 
         /**
          * @var string|null
          *
          * @ORM\Column(name="state", type="string", length=50, nullable=true)
          */
-        private $state;
+        private ?string $state;
 
         /**
          * @var string|null
          *
          * @ORM\Column(name="postalCode", type="string", length=15, nullable=true)
          */
-        private $postalcode;
+        private ?string $postalCode;
 
         /**
          * @var string
          *
          * @ORM\Column(name="country", type="string", length=50, nullable=false)
          */
-        private $country;
+        private string $country;
 
         /**
-         * @var string|null
+         * @var float|null
          *
          * @ORM\Column(name="creditLimit", type="decimal", precision=10, scale=2, nullable=true)
          */
-        private $creditlimit;
+        private ?float $creditLimit;
 
         /**
          * @var Employees
          *
-         * @ORM\ManyToOne(targetEntity="\\Employees")
+         * @ORM\ManyToOne(targetEntity="\App\Entity\Employees")
          * @ORM\JoinColumns({
          *   @ORM\JoinColumn(name="salesRepEmployeeNumber", referencedColumnName="employeeNumber")
          * })
          */
-        private $salesrepemployeenumber;
+        private Employees $salesRepEmployeeNumber;
 
 
         /**
-         * Get customernumber.
+         * Get customerNumber.
          *
          * @return int
          */
-        public function getCustomernumber()
+        public function getCustomerNumber(): int
         {
-            return $this->customernumber;
+            return $this->customerNumber;
         }
 
         /**
-         * Set customername.
+         * Set customerName.
          *
-         * @param string $customername
+         * @param string $customerName
          *
          * @return Customers
          */
-        public function setCustomername($customername): self
+        public function setCustomerName(string $customerName): self
         {
-            $this->customername = $customername;
+            $this->customerName = $customerName;
 
             return $this;
         }
 
         /**
-         * Get customername.
+         * Get customerName.
          *
          * @return string
          */
-        public function getCustomername()
+        public function getCustomerName(): string
         {
-            return $this->customername;
+            return $this->customerName;
         }
 
         /**
-         * Set contactlastname.
+         * Set contactLastname.
          *
-         * @param string $contactlastname
+         * @param string $contactLastname
          *
          * @return Customers
          */
-        public function setContactlastname($contactlastname): self
+        public function setContactLastname(string $contactLastname): self
         {
-            $this->contactlastname = $contactlastname;
+            $this->contactLastname = $contactLastname;
 
             return $this;
         }
 
         /**
-         * Get contactlastname.
+         * Get contactLastname.
          *
          * @return string
          */
-        public function getContactlastname()
+        public function getContactLastname(): string
         {
-            return $this->contactlastname;
+            return $this->contactLastname;
         }
 
         /**
-         * Set contactfirstname.
+         * Set contactFirstname.
          *
-         * @param string $contactfirstname
+         * @param string $contactFirstname
          *
          * @return Customers
          */
-        public function setContactfirstname($contactfirstname): self
+        public function setContactFirstname(string $contactFirstname): self
         {
-            $this->contactfirstname = $contactfirstname;
+            $this->contactFirstname = $contactFirstname;
 
             return $this;
         }
 
         /**
-         * Get contactfirstname.
+         * Get contactFirstname.
          *
          * @return string
          */
-        public function getContactfirstname()
+        public function getContactFirstname(): string
         {
-            return $this->contactfirstname;
+            return $this->contactFirstname;
         }
 
         /**
@@ -200,7 +200,7 @@
          *
          * @return Customers
          */
-        public function setPhone($phone): self
+        public function setPhone(string $phone): self
         {
             $this->phone = $phone;
 
@@ -212,57 +212,57 @@
          *
          * @return string
          */
-        public function getPhone()
+        public function getPhone(): string
         {
             return $this->phone;
         }
 
         /**
-         * Set addressline1.
+         * Set addressLine1.
          *
-         * @param string $addressline1
+         * @param string $addressLine1
          *
          * @return Customers
          */
-        public function setAddressline1($addressline1): self
+        public function setAddressLine1(string $addressLine1): self
         {
-            $this->addressline1 = $addressline1;
+            $this->addressLine1 = $addressLine1;
 
             return $this;
         }
 
         /**
-         * Get addressline1.
+         * Get addressLine1.
          *
          * @return string
          */
-        public function getAddressline1()
+        public function getAddressLine1(): string
         {
-            return $this->addressline1;
+            return $this->addressLine1;
         }
 
         /**
-         * Set addressline2.
+         * Set addressLine2.
          *
-         * @param string|null $addressline2
+         * @param string|null $addressLine2
          *
          * @return Customers
          */
-        public function setAddressline2($addressline2 = null): self
+        public function setAddressLine2(string $addressLine2 = null): self
         {
-            $this->addressline2 = $addressline2;
+            $this->addressLine2 = $addressLine2;
 
             return $this;
         }
 
         /**
-         * Get addressline2.
+         * Get addressLine2.
          *
          * @return string|null
          */
-        public function getAddressline2()
+        public function getAddressLine2(): ?string
         {
-            return $this->addressline2;
+            return $this->addressLine2;
         }
 
         /**
@@ -272,7 +272,7 @@
          *
          * @return Customers
          */
-        public function setCity($city): self
+        public function setCity(string $city): self
         {
             $this->city = $city;
 
@@ -284,7 +284,7 @@
          *
          * @return string
          */
-        public function getCity()
+        public function getCity(): string
         {
             return $this->city;
         }
@@ -296,7 +296,7 @@
          *
          * @return Customers
          */
-        public function setState($state = null): self
+        public function setState(string $state = null): self
         {
             $this->state = $state;
 
@@ -308,33 +308,33 @@
          *
          * @return string|null
          */
-        public function getState()
+        public function getState(): ?string
         {
             return $this->state;
         }
 
         /**
-         * Set postalcode.
+         * Set postalCode.
          *
-         * @param string|null $postalcode
+         * @param string|null $postalCode
          *
          * @return Customers
          */
-        public function setPostalcode($postalcode = null): self
+        public function setPostalCode(string $postalCode = null): self
         {
-            $this->postalcode = $postalcode;
+            $this->postalCode = $postalCode;
 
             return $this;
         }
 
         /**
-         * Get postalcode.
+         * Get postalCode.
          *
          * @return string|null
          */
-        public function getPostalcode()
+        public function getPostalCode(): ?string
         {
-            return $this->postalcode;
+            return $this->postalCode;
         }
 
         /**
@@ -344,7 +344,7 @@
          *
          * @return Customers
          */
-        public function setCountry($country): self
+        public function setCountry(string $country): self
         {
             $this->country = $country;
 
@@ -356,56 +356,56 @@
          *
          * @return string
          */
-        public function getCountry()
+        public function getCountry(): string
         {
             return $this->country;
         }
 
         /**
-         * Set creditlimit.
+         * Set creditLimit.
          *
-         * @param string|null $creditlimit
+         * @param string|null $creditLimit
          *
          * @return Customers
          */
-        public function setCreditlimit($creditlimit = null): self
+        public function setCreditLimit(string $creditLimit = null): self
         {
-            $this->creditlimit = $creditlimit;
+            $this->creditLimit = $creditLimit;
 
             return $this;
         }
 
         /**
-         * Get creditlimit.
+         * Get creditLimit.
          *
-         * @return string|null
+         * @return float|null
          */
-        public function getCreditlimit()
+        public function getCreditLimit(): ?float
         {
-            return $this->creditlimit;
+            return $this->creditLimit;
         }
 
         /**
-         * Set salesrepemployeenumber.
+         * Set salesRepEmployeeNumber.
          *
-         * @param Employees|null $salesrepemployeenumber
+         * @param Employees|null $salesRepEmployeeNumber
          *
          * @return Customers
          */
-        public function setSalesrepemployeenumber(Employees $salesrepemployeenumber = null): self
+        public function setSalesRepEmployeeNumber(Employees $salesRepEmployeeNumber = null): self
         {
-            $this->salesrepemployeenumber = $salesrepemployeenumber;
+            $this->salesRepEmployeeNumber = $salesRepEmployeeNumber;
 
             return $this;
         }
 
         /**
-         * Get salesrepemployeenumber.
+         * Get salesRepEmployeeNumber.
          *
          * @return Employees|null
          */
-        public function getSalesrepemployeenumber()
+        public function getSalesRepEmployeeNumber(): ?Employees
         {
-            return $this->salesrepemployeenumber;
+            return $this->salesRepEmployeeNumber;
         }
     }

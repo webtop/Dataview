@@ -5,21 +5,29 @@
     <title>{{ title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
-<body class="container">
+<body>
 
-    <header>
+    <header class="container">
         <div class="row mt-4">
-            <div class="col-md-12">
+            <div class="col-md-11">
                 {% block header %}
                     {% include 'Partials/header.html.twig' %}
                 {% endblock %}
             </div>
+            <div id="db_state_container" class="col ms-2 w-32 h-32 mt-3" title="Database connection state">
+                {% block db_state %}
+                    {% include 'Partials/db_state.html.twig' %}
+                {% endblock %}
+                <br />
+                <span id="db_online_state_text"></span>
+            </div>
         </div>
     </header>
 
-    <div id="main" class="mt-4">
+    <div id="main" class="container mt-4">
         <div class="row">
             <div class="col-md-12">
                 {% block content %}
@@ -29,7 +37,7 @@
         </div>
     </div>
 
-    <footer>
+    <footer class="container">
         <div class="row">
             <div class="col-md-12">
                 {% block footer %}

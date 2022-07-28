@@ -1,6 +1,8 @@
 <?php
     declare(strict_types=1);
 
+    session_start();
+
     use App\Controller\BaseController;
     use DI\Container;
     use DI\ContainerBuilder;
@@ -29,6 +31,9 @@
                 'cache_path' => CACHE_PATH,
                 'root' => ROOT,
                 'log_root' => LOG_ROOT,
+                'db' => [
+                    'is_loaded' => $_SESSION['db']['is_loaded'] ?? false
+                ]
             ],
             Logger::class => function(): Logger {
                 $logger = new Logger('dataview');

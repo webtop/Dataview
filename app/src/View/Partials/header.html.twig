@@ -1,7 +1,7 @@
 {% block header %}
     {%  if db_loaded == false %}
         {%  include 'Forms/db_connect.html.twig' %}
-    {%  else %}
-        This is the header area!
+    {% else %}
+        {%  include 'Forms/table_selector.html.twig' %}
     {% endif %}
 {% endblock %}

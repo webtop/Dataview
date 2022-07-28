@@ -5,13 +5,9 @@
     const IS_DEV_MODE = true;
     const CACHE = null;
     const ANNOTATION_READER = false;
-    const ENTITY_PATH = __DIR__ . '/../src/Entity';
-    const PROXY_PATH = __DIR__ . '/../temp/Proxy';
-    const CACHE_PATH = __DIR__ . '/../temp/Cache';
-    const DB_PREF = '';
 
     // Database connection parameters, possibly from .env file...
-    $DB_HOST = getenv('DB_HOST') ?? 'localhost:8080';
+    $DB_HOST = getenv('DB_HOST') ?? 'dataview-mysql:33061';
     $DB_NAME = getenv('DB_NAME') ?? 'classicmodels';
     $DB_USER = getenv('DB_USER') ?? 'dataview';
     $DB_PASS = getenv('DB_PASS') ?? 'QnQbB8000$10';
@@ -26,3 +22,6 @@
     define("ROOT", realpath(__DIR__ . '/../'));
     define("LOG_ROOT", realpath(__DIR__ . '/../logs/'));
     define("CONFIG_ROOT", realpath(__DIR__ . '/'));
+    define("ENTITY_PATH", realpath(__DIR__ . '/../src/Entity/'));
+    define("PROXY_PATH", realpath(__DIR__ . '/../temp/Proxy/'));
+    define("CACHE_PATH", realpath(__DIR__ . '/../temp/Cache/'));
