@@ -224,10 +224,11 @@
         public function getAddress(): string
         {
             $addr2 = empty($this->addressLine2) ? '' : ', ' . $this->addressLine2;
+            $state = empty($this->state) ? '' : ', ' . $this->state;
             return $this->addressLine1 . $addr2 .
                 ', ' . $this->city .
                 ', ' . $this->postalCode .
-                ', ' . $this->state .
+                $state .
                 ', ' . $this->country;
         }
 

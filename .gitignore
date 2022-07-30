@@ -2,8 +2,8 @@
 /data/
 /logs/
 /app/temp/
-.env
+/.env
 /.idea/
 /app/xdebug.log
 /app/vendor/
-app/public/dataview.log
+/app/public/dataview.log
