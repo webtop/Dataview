@@ -145,8 +145,22 @@
             $model = new $model_name($this->entityManager);
             $items = $model->getAll();
             return $this->render([
-                'items' => $items
+                'items' => $items,
+                'position' => $_SESSION['db']['cursor_position'],
+                'max' => $_SESSION['db']['cursor_max_position'],
             ], [],true);
+        }
+
+        /**
+         * @throws SyntaxError
+         * @throws RuntimeError
+         * @throws LoaderError
+         */
+        #[Mapping\Route('first_page', path: '/data/{table}/first', method: 'GET')]
+        public function getFirstResults(Request $request): Response
+        {
+            $_SESSION['db']['cursor_position'] = 0;
+            return $this->showTable($request);
         }
 
         /**
@@ -174,6 +188,18 @@
             } else {
                 $_SESSION['db']['cursor_position'] = 0;
             }
+            return $this->showTable($request);
+        }
+
+        /**
+         * @throws SyntaxError
+         * @throws RuntimeError
+         * @throws LoaderError
+         */
+        #[Mapping\Route('last_page', path: '/data/{table}/last', method: 'GET')]
+        public function getLastResults(Request $request): Response
+        {
+            $_SESSION['db']['cursor_position'] = $_SESSION['db']['cursor_max_position'] - self::PER_PAGE_RESULTS;
             return $this->showTable($request);
         }
     }

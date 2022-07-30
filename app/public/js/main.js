@@ -1,5 +1,6 @@
 $(document).ready(function() {
     let data_state;
+    const PER_PAGE = 20;
 
     const show_error = function(message) {
         $('span', '#error_container').text(message);
@@ -51,10 +52,25 @@ $(document).ready(function() {
     }
 
     const clear_table = function() {
-        let thead = $('table#main_content_table thead');
-        let tbody = $('table#main_content_table tbody');
-        thead.empty();
-        tbody.empty();
+        $('table#main_content_table thead').empty();
+        $('table#main_content_table tbody').empty();
+    }
+
+    const update_position = function(position, max) {
+        let current = (position + PER_PAGE > max) ? max : position + PER_PAGE;
+        $('#positional_data #position').text(position + 1); // Humans!
+        $('#positional_data #inc').text(current);
+        $('#positional_data #max').text(max);
+
+        update_navigation(position, max);
+    }
+
+    const update_navigation = function(position, max) {
+        $('#table_nav_buttons #first').attr('disabled', position === 0);
+        $('#table_nav_buttons #previous').attr('disabled', position  < PER_PAGE);
+        $('#table_nav_buttons #next').attr('disabled', position + PER_PAGE >= max);
+        $('#table_nav_buttons #last').attr('disabled', position + PER_PAGE >= max);
+        $('#table_nav_buttons button').blur();
     }
 
     update_state();
@@ -126,6 +142,22 @@ $(document).ready(function() {
                 success: function (response) {
                     $('select#table_selector').blur();
                     build_table(response.items);
+                    update_position(response.position, response.max);
+                    $('#positional_data').removeClass('invisible');
+                }
+            });
+        }
+    });
+
+    $('button#first').on('click', function() {
+        let table = $('select#table_selector').val();
+        if (table !== '') {
+            $.ajax({
+                url: '/data/' + table + '/first',
+                type: 'GET',
+                success: function (response) {
+                    build_table(response.items);
+                    update_position(response.position, response.max);
                 }
             });
         }
@@ -138,8 +170,8 @@ $(document).ready(function() {
                 url: '/data/' + table + '/next',
                 type: 'GET',
                 success: function (response) {
-                    $('select#table_selector').blur();
                     build_table(response.items);
+                    update_position(response.position, response.max);
                 }
             });
         }
@@ -152,8 +184,22 @@ $(document).ready(function() {
                 url: '/data/' + table + '/previous',
                 type: 'GET',
                 success: function (response) {
-                    $('select#table_selector').blur();
                     build_table(response.items);
+                    update_position(response.position, response.max);
+                }
+            });
+        }
+    });
+
+    $('button#last').on('click', function() {
+        let table = $('select#table_selector').val();
+        if (table !== '') {
+            $.ajax({
+                url: '/data/' + table + '/last',
+                type: 'GET',
+                success: function (response) {
+                    build_table(response.items);
+                    update_position(response.position, response.max);
                 }
             });
         }

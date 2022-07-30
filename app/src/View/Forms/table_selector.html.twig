@@ -8,9 +8,10 @@
             {% endfor %}
         </select>
     </div>
-    <div class="col-md-6 invisible" id="table_nav_buttons">
-        <button type="button" class="btn btn-primary" id="previous">Previous 20 Results</button>
-        <button type="button" class="btn btn-primary" id="next">Next 20 Results</button>
+    <div class="col-4 mt-4">
+        <p class="invisible" id="positional_data">
+            Showing <span id="position"></span> - <span id="inc"></span> of <span id="max"></span> rows
+        </p>
     </div>
     <div class="col me-3">
         <button type="button" class="btn btn-warning float-end" id="disconnect">Disconnect</button>
