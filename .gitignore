@@ -6,3 +6,4 @@
 /.idea/
 /app/xdebug.log
 /app/vendor/
+app/public/dataview.log

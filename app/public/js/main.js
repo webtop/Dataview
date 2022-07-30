@@ -130,4 +130,32 @@ $(document).ready(function() {
             });
         }
     });
+
+    $('button#next').on('click', function() {
+        let table = $('select#table_selector').val();
+        if (table !== '') {
+            $.ajax({
+                url: '/data/' + table + '/next',
+                type: 'GET',
+                success: function (response) {
+                    $('select#table_selector').blur();
+                    build_table(response.items);
+                }
+            });
+        }
+    });
+
+    $('button#previous').on('click', function() {
+        let table = $('select#table_selector').val();
+        if (table !== '') {
+            $.ajax({
+                url: '/data/' + table + '/previous',
+                type: 'GET',
+                success: function (response) {
+                    $('select#table_selector').blur();
+                    build_table(response.items);
+                }
+            });
+        }
+    });
 });

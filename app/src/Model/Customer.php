@@ -3,27 +3,23 @@
 
     namespace App\Model;
 
+    use App\Controller\IndexController;
     use App\Entity\Customers;
     use Doctrine\ORM\EntityManager;
+    use Doctrine\ORM\Exception\ORMException;
+    use Doctrine\ORM\OptimisticLockException;
     use Monolog\Logger;
     use Psr\Container\ContainerExceptionInterface;
     use Psr\Container\NotFoundExceptionInterface;
     use Psr\Container\ContainerInterface;
 
 
-    class Customer {
+    class Customer extends BaseModel {
 
-        private EntityManager $entityManager;
-
-        public function __construct(EntityManager $entityManager)
-        {
-            $this->entityManager = $entityManager;
-        }
-
-        public function getAll(int $from, int $per_page): array {
+        public function getAll(): array {
             $customers = [];
             $table = $this->entityManager->getRepository(Customers::class);
-            $entities = $table->findBy([], ['customerName' => 'ASC'], $per_page, $from);
+            $entities = $table->findBy([], ['customerName' => 'ASC'], IndexController::PER_PAGE_RESULTS, $_SESSION['db']['cursor_position']);
             foreach ($entities as $entity) {
                 $customers[] = [
                     '#' => $entity->getCustomerNumber(),
@@ -37,22 +33,33 @@
         }
 
         public function getById(int $id): Customer {
-            $customer = $this->entityManager->getRepository(Customers::class)->find($id);
-            return $customer;
+            return $this->entityManager->getRepository(Customers::class)->find($id);
         }
 
+        /**
+         * @throws OptimisticLockException
+         * @throws ORMException
+         */
         public function create(Customer $customer): Customer {
             $this->entityManager->persist($customer);
             $this->entityManager->flush();
             return $customer;
         }
 
+        /**
+         * @throws OptimisticLockException
+         * @throws ORMException
+         */
         public function update(Customer $customer): Customer {
             $this->entityManager->persist($customer);
             $this->entityManager->flush();
             return $customer;
         }
 
+        /**
+         * @throws OptimisticLockException
+         * @throws ORMException
+         */
         public function delete(Customer $customer): void {
             $this->entityManager->remove($customer);
             $this->entityManager->flush();

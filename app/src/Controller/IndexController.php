@@ -21,6 +21,8 @@
 
     class IndexController extends BaseController
     {
+        const PER_PAGE_RESULTS = 20;
+
         /**
          * @throws SyntaxError
          * @throws RuntimeError
@@ -138,14 +140,40 @@
         #[Mapping\Route('show_table', path: '/data/{table}', method: 'GET')]
         public function showTable(Request $request): Response
         {
-            $from = 0;
-            $per_page = 20;
             $inflector = InflectorFactory::create()->build();
             $model_name = '\App\Model\\' . $inflector->singularize($request->getAttribute('table'));
             $model = new $model_name($this->entityManager);
-            $items = $model->getAll($from, $per_page);
+            $items = $model->getAll();
             return $this->render([
                 'items' => $items
             ], [],true);
+        }
+
+        /**
+         * @throws SyntaxError
+         * @throws RuntimeError
+         * @throws LoaderError
+         */
+        #[Mapping\Route('next_page', path: '/data/{table}/next', method: 'GET')]
+        public function getNextResults(Request $request): Response
+        {
+            $_SESSION['db']['cursor_position'] += self::PER_PAGE_RESULTS;
+            return $this->showTable($request);
+        }
+
+        /**
+         * @throws SyntaxError
+         * @throws RuntimeError
+         * @throws LoaderError
+         */
+        #[Mapping\Route('previous_page', path: '/data/{table}/previous', method: 'GET')]
+        public function getPreviousResults(Request $request): Response
+        {
+            if ($_SESSION['db']['cursor_position'] > self::PER_PAGE_RESULTS) {
+                $_SESSION['db']['cursor_position'] -= self::PER_PAGE_RESULTS;
+            } else {
+                $_SESSION['db']['cursor_position'] = 0;
+            }
+            return $this->showTable($request);
         }
     }

@@ -77,6 +77,7 @@
 
         protected function setIsDbLoaded(bool $is_loaded): void {
             $_SESSION['db']['is_loaded'] = $is_loaded;
+            $_SESSION['db']['cursor_position'] = 0;
             $this->config['db']['is_loaded'] = $is_loaded;
         }
 
