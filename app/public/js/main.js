@@ -98,7 +98,7 @@ $(document).ready(() => {
     const set_edit_row = (evt) => {
         let row = $($(evt.target).closest('tr'));
         current_edit_row = row;
-        $('.edit_buttons').addClass('hidden');
+        $('.edit_buttons').addClass('invisible');
         row.addClass('editing');
         let cells = row[0].childNodes;
         for (let cell in cells) {
@@ -248,8 +248,7 @@ $(document).ready(() => {
             case 'edit_row':
                 let buttons = $('.edit_buttons');
                 $('table#main_content_table thead tr th:first-child').text('Edit').removeClass('hidden');
-                buttons.parent().removeClass('hidden');
-                buttons.removeClass('hidden');
+                buttons.removeClass('invisible').parent().removeClass('hidden');
                 break;
             case 'add_row':
                 break;
