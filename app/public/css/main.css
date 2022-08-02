@@ -34,11 +34,24 @@ body div#main table {
   box-shadow: 0 0 4px #a1a1a1;
   width: 92%;
 }
+body div#main thead th.hidden {
+  display: none;
+}
+body div#main tbody tr.editing {
+  background-color: darkgoldenrod;
+}
+body div#main tbody td.hidden {
+  display: none;
+}
+body div#main div#floated_action_buttons {
+  position: absolute;
+  display: none;
+  border: 1px solid #a1a1a1;
+  border-left: 0;
+  background-color: #cde2ff;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
 body footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   text-align: center;
   background: #cde2ff;
 }

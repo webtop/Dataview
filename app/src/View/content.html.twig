@@ -2,13 +2,19 @@
     <thead></thead>
     <tbody class="table-group-divider">
         <tr>
-            <td>Please select a table from the drop down.</td>
+            <td>Please select a table from the drop-down.</td>
         </tr>
     </tbody>
-    <caption class="table-group-divider me-4">
+    <caption class="">
         <div class="col invisible float-start" id="table_action_buttons">
-            <button type="button" class="btn btn-primary" id="add_new_row" title="Edite Mode">
+            <button type="button" class="btn btn-primary" id="edit_row" title="Edit a record">
                 <i class="bi-pencil"></i>
+            </button>
+            <button type="button" class="btn btn-primary" id="add_row" title="Add a record">
+                <i class="bi-plus"></i>
+            </button>
+            <button type="button" class="btn btn-primary" id="delete_row" title="Delete a record">
+                <i class="bi-trash"></i>
             </button>
         </div>
         <div class="col invisible float-end" id="table_nav_buttons">
@@ -27,3 +33,8 @@
         </div>
     </caption>
 </table>
+
+<div id="floated_action_buttons">
+    <button class="btn btn-sm btn-success bi-check-lg m-1" id="save_edit"></button>
+    <button class="btn btn-sm btn-danger bi-x-lg m-1" id="cancel_edit"></button>
+</div>

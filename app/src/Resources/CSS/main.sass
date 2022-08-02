@@ -31,12 +31,24 @@ body
             border-radius: 5px
             box-shadow: 0 0 4px #a1a1a1
             width: 92%
+        thead
+            th.hidden
+                display: none
+        tbody
+            tr.editing
+                background-color: darkgoldenrod
+            td.hidden
+                display: none
+
+        div#floated_action_buttons
+            position: absolute
+            display: none
+            border: 1px solid #a1a1a1
+            border-left: 0
+            background-color: #cde2ff
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15)
 
     footer
-        position: fixed
-        bottom: 0
-        left: 0
-        right: 0
         text-align: center
         background: #cde2ff
 

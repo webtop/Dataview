@@ -22,11 +22,11 @@
             $entities = $table->findBy([], ['customerName' => 'ASC'], IndexController::PER_PAGE_RESULTS, $_SESSION['db']['cursor_position']);
             foreach ($entities as $entity) {
                 $customers[] = [
-                    '#' => $entity->getCustomerNumber(),
-                    'Name' => $entity->getCustomerName(),
-                    'Contact' => $entity->getContactFirstname() . ' ' . $entity->getContactLastname(),
-                    'Phone' => $entity->getPhone(),
-                    'Address' => $entity->getAddress()
+                    ['key' => 'customerNumber', 'text' => '#', 'value' => $entity->getCustomerNumber()],
+                    ['key' => 'customerName', 'text' => 'Name', 'value'  => $entity->getCustomerName()],
+                    ['key' => 'contactFirstname', 'text' => 'Contact', 'value'  => $entity->getContactFirstname() . ' ' . $entity->getContactLastname()],
+                    ['key' => 'customerPhone', 'text' => 'Phone', 'value'  => $entity->getPhone()],
+                    ['key' => 'customerAddress', 'text' => 'Address', 'value'  => $entity->getAddress()]
                 ];
             }
             return $customers;
