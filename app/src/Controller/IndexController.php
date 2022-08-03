@@ -202,4 +202,22 @@
             $_SESSION['db']['cursor_position'] = $_SESSION['db']['cursor_max_position'] - self::PER_PAGE_RESULTS;
             return $this->showTable($request);
         }
+
+        /**
+         * @throws SyntaxError
+         * @throws RuntimeError
+         * @throws LoaderError
+         */
+        #[Mapping\Route('update_table', path: '/data/{table}/update', method: 'PUT')]
+        public function updateTable(Request $request): Response
+        {
+            $inflector = InflectorFactory::create()->build();
+            $model_name = '\App\Model\\' . $inflector->singularize($request->getAttribute('table'));
+            $model = new $model_name($this->entityManager);
+            $model->update($request->getBody()->getContents());
+            return $this->render([
+                'success' => true,
+                'message' => 'Table updated!'
+            ], [], true);
+        }
     }

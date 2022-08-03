@@ -3,8 +3,10 @@
 
     namespace App\Model;
 
+    use App\Controller\BaseController;
     use App\Controller\IndexController;
     use App\Entity\Customers;
+    use Doctrine\Inflector\Inflector;
     use Doctrine\ORM\EntityManager;
     use Doctrine\ORM\Exception\ORMException;
     use Doctrine\ORM\OptimisticLockException;
@@ -50,7 +52,11 @@
          * @throws OptimisticLockException
          * @throws ORMException
          */
-        public function update(Customer $customer): Customer {
+        public function update(array $updated_data): Customer {
+            $customer = $this->entityManager->getRepository(Customers::class)->find($updated_data['customerNumber']);
+            foreach ($updated_data as $key => $value) {
+                $customer->{'set' . ucfirst($key)}($value);
+            }
             $this->entityManager->persist($customer);
             $this->entityManager->flush();
             return $customer;
