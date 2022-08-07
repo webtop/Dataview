@@ -9,7 +9,9 @@
     /**
      * Employees
      *
-     * @ORM\Table(name="employees", indexes={@ORM\Index(name="officeCode", columns={"officeCode"}), @ORM\Index(name="reportsTo", columns={"reportsTo"})})
+     * @ORM\Table(name="employees", indexes={
+     *     @ORM\Index(name="officeCode", columns={"officeCode"}),
+     *     @ORM\Index(name="reportsTo", columns={"reportsTo"})})
      * @ORM\Entity
      */
     class Employees
@@ -21,42 +23,42 @@
          * @ORM\Id
          * @ORM\GeneratedValue(strategy="IDENTITY")
          */
-        private $employeenumber;
+        private int $employeeNumber;
 
         /**
          * @var string
          *
          * @ORM\Column(name="lastName", type="string", length=50, nullable=false)
          */
-        private $lastname;
+        private string $lastName;
 
         /**
          * @var string
          *
          * @ORM\Column(name="firstName", type="string", length=50, nullable=false)
          */
-        private $firstname;
+        private string $firstName;
 
         /**
          * @var string
          *
          * @ORM\Column(name="extension", type="string", length=10, nullable=false)
          */
-        private $extension;
+        private string $extension;
 
         /**
          * @var string
          *
          * @ORM\Column(name="email", type="string", length=100, nullable=false)
          */
-        private $email;
+        private string $email;
 
         /**
          * @var string
          *
          * @ORM\Column(name="jobTitle", type="string", length=50, nullable=false)
          */
-        private $jobtitle;
+        private string $jobTitle;
 
         /**
          * @var Offices
@@ -66,7 +68,7 @@
          *   @ORM\JoinColumn(name="officeCode", referencedColumnName="officeCode")
          * })
          */
-        private $officecode;
+        private Offices $officeCode;
 
         /**
          * @var Employees
@@ -76,7 +78,7 @@
          *   @ORM\JoinColumn(name="reportsTo", referencedColumnName="employeeNumber")
          * })
          */
-        private $reportsto;
+        private Employees $reportsTo;
 
 
         /**
@@ -84,9 +86,9 @@
          *
          * @return int
          */
-        public function getEmployeenumber()
+        public function getEmployeeNumber(): int
         {
-            return $this->employeenumber;
+            return $this->employeeNumber;
         }
 
         /**
@@ -96,10 +98,9 @@
          *
          * @return Employees
          */
-        public function setLastname($lastname): self
+        public function setLastName(string $lastname): self
         {
-            $this->lastname = $lastname;
-
+            $this->lastName = $lastname;
             return $this;
         }
 
@@ -108,9 +109,9 @@
          *
          * @return string
          */
-        public function getLastname()
+        public function getLastName(): string
         {
-            return $this->lastname;
+            return $this->lastName;
         }
 
         /**
@@ -120,10 +121,9 @@
          *
          * @return Employees
          */
-        public function setFirstname($firstname): self
+        public function setFirstName(string $firstname): self
         {
-            $this->firstname = $firstname;
-
+            $this->firstName = $firstname;
             return $this;
         }
 
@@ -132,9 +132,9 @@
          *
          * @return string
          */
-        public function getFirstname()
+        public function getFirstname(): string
         {
-            return $this->firstname;
+            return $this->firstName;
         }
 
         /**
@@ -144,10 +144,9 @@
          *
          * @return Employees
          */
-        public function setExtension($extension): self
+        public function setExtension(string $extension): self
         {
             $this->extension = $extension;
-
             return $this;
         }
 
@@ -156,7 +155,7 @@
          *
          * @return string
          */
-        public function getExtension()
+        public function getExtension(): string
         {
             return $this->extension;
         }
@@ -168,10 +167,9 @@
          *
          * @return Employees
          */
-        public function setEmail($email): self
+        public function setEmail(string $email): self
         {
             $this->email = $email;
-
             return $this;
         }
 
@@ -180,7 +178,7 @@
          *
          * @return string
          */
-        public function getEmail()
+        public function getEmail(): string
         {
             return $this->email;
         }
@@ -192,10 +190,9 @@
          *
          * @return Employees
          */
-        public function setJobtitle($jobtitle): self
+        public function setJobTitle(string $jobtitle): self
         {
-            $this->jobtitle = $jobtitle;
-
+            $this->jobTitle = $jobtitle;
             return $this;
         }
 
@@ -204,9 +201,9 @@
          *
          * @return string
          */
-        public function getJobtitle()
+        public function getJobTitle(): string
         {
-            return $this->jobtitle;
+            return $this->jobTitle;
         }
 
         /**
@@ -216,10 +213,9 @@
          *
          * @return Employees
          */
-        public function setOfficecode(Offices $officecode = null): self
+        public function setOfficeCode(Offices $officecode = null): self
         {
-            $this->officecode = $officecode;
-
+            $this->officeCode = $officecode;
             return $this;
         }
 
@@ -228,9 +224,9 @@
          *
          * @return Offices|null
          */
-        public function getOfficecode()
+        public function getOfficeCode(): ?Offices
         {
-            return $this->officecode;
+            return $this->officeCode;
         }
 
         /**
@@ -240,10 +236,9 @@
          *
          * @return Employees
          */
-        public function setReportsto(Employees $reportsto = null): self
+        public function setReportsTo(Employees $reportsto = null): self
         {
-            $this->reportsto = $reportsto;
-
+            $this->reportsTo = $reportsto;
             return $this;
         }
 
@@ -252,8 +247,8 @@
          *
          * @return Employees|null
          */
-        public function getReportsto()
+        public function getReportsto(): ?Employees
         {
-            return $this->reportsto;
+            return $this->reportsTo;
         }
     }

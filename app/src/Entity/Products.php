@@ -5,6 +5,8 @@
     namespace App\Entity;
 
     use Doctrine;
+    use Doctrine\Common\Collections\ArrayCollection;
+    use Doctrine\Common\Collections\Collection;
     use Doctrine\ORM\Mapping as ORM;
     use App\Entity;
 
@@ -23,244 +25,244 @@
          * @ORM\Id
          * @ORM\GeneratedValue(strategy="IDENTITY")
          */
-        private $productcode;
+        private string $productCode;
 
         /**
          * @var string
          *
          * @ORM\Column(name="productName", type="string", length=70, nullable=false)
          */
-        private $productname;
+        private string $productName;
 
         /**
          * @var string
          *
          * @ORM\Column(name="productScale", type="string", length=10, nullable=false)
          */
-        private $productscale;
+        private string $productScale;
 
         /**
          * @var string
          *
          * @ORM\Column(name="productVendor", type="string", length=50, nullable=false)
          */
-        private $productvendor;
+        private string $productVendor;
 
         /**
          * @var string
          *
          * @ORM\Column(name="productDescription", type="text", length=65535, nullable=false)
          */
-        private $productdescription;
+        private string $productDescription;
 
         /**
          * @var int
          *
          * @ORM\Column(name="quantityInStock", type="smallint", nullable=false)
          */
-        private $quantityinstock;
+        private int $quantityInStock;
 
         /**
-         * @var string
+         * @var float
          *
          * @ORM\Column(name="buyPrice", type="decimal", precision=10, scale=2, nullable=false)
          */
-        private $buyprice;
+        private float $buyPrice;
 
         /**
-         * @var string
+         * @var float
          *
          * @ORM\Column(name="MSRP", type="decimal", precision=10, scale=2, nullable=false)
          */
-        private $msrp;
+        private float $msrp;
 
         /**
-         * @var Productlines
+         * @var ProductLines
          *
-         * @ORM\ManyToOne(targetEntity="\App\Entity\Productlines")
+         * @ORM\ManyToOne(targetEntity="\App\Entity\ProductLines")
          * @ORM\JoinColumns({
          *   @ORM\JoinColumn(name="productLine", referencedColumnName="productLine")
          * })
          */
-        private $productline;
+        private ProductLines $productLine;
 
         /**
          * @var Doctrine\Common\Collections\Collection
          *
-         * @ORM\ManyToMany(targetEntity="\App\Entity\Orders", mappedBy="productcode")
+         * @ORM\ManyToMany(targetEntity="\App\Entity\Orders", mappedBy="productCode")
          */
-        private $ordernumber = array();
+        private $orderNumber = array();
 
         /**
          * Constructor
          */
         public function __construct()
         {
-            $this->ordernumber = new \Doctrine\Common\Collections\ArrayCollection();
+            $this->orderNumber = new ArrayCollection();
         }
 
         /**
-         * Get productcode.
+         * Get productCode.
          *
          * @return string
          */
-        public function getProductcode()
+        public function getProductCode(): string
         {
-            return $this->productcode;
+            return $this->productCode;
         }
 
         /**
-         * Set productname.
+         * Set productName.
          *
-         * @param string $productname
+         * @param string $productName
          *
          * @return Products
          */
-        public function setProductname($productname): self
+        public function setProductName(string $productName): self
         {
-            $this->productname = $productname;
+            $this->productName = $productName;
 
             return $this;
         }
 
         /**
-         * Get productname.
+         * Get productName.
          *
          * @return string
          */
-        public function getProductname()
+        public function getProductName(): string
         {
-            return $this->productname;
+            return $this->productName;
         }
 
         /**
-         * Set productscale.
+         * Set productScale.
          *
-         * @param string $productscale
+         * @param string $productScale
          *
          * @return Products
          */
-        public function setProductscale($productscale): self
+        public function setProductScale(string $productScale): self
         {
-            $this->productscale = $productscale;
+            $this->productScale = $productScale;
 
             return $this;
         }
 
         /**
-         * Get productscale.
+         * Get productScale.
          *
          * @return string
          */
-        public function getProductscale()
+        public function getProductScale(): string
         {
-            return $this->productscale;
+            return $this->productScale;
         }
 
         /**
-         * Set productvendor.
+         * Set productVendor.
          *
-         * @param string $productvendor
+         * @param string $productVendor
          *
          * @return Products
          */
-        public function setProductvendor($productvendor): self
+        public function setProductVendor(string $productVendor): self
         {
-            $this->productvendor = $productvendor;
+            $this->productVendor = $productVendor;
 
             return $this;
         }
 
         /**
-         * Get productvendor.
+         * Get productVendor.
          *
          * @return string
          */
-        public function getProductvendor()
+        public function getProductVendor(): string
         {
-            return $this->productvendor;
+            return $this->productVendor;
         }
 
         /**
-         * Set productdescription.
+         * Set productDescription.
          *
-         * @param string $productdescription
+         * @param string $productDescription
          *
          * @return Products
          */
-        public function setProductdescription($productdescription): self
+        public function setProductDescription(string $productDescription): self
         {
-            $this->productdescription = $productdescription;
+            $this->productDescription = $productDescription;
 
             return $this;
         }
 
         /**
-         * Get productdescription.
+         * Get productDescription.
          *
          * @return string
          */
-        public function getProductdescription()
+        public function getProductDescription(): string
         {
-            return $this->productdescription;
+            return $this->productDescription;
         }
 
         /**
-         * Set quantityinstock.
+         * Set quantityInStock.
          *
-         * @param int $quantityinstock
+         * @param int $quantityInStock
          *
          * @return Products
          */
-        public function setQuantityinstock($quantityinstock): self
+        public function setQuantityInStock(int $quantityInStock): self
         {
-            $this->quantityinstock = $quantityinstock;
+            $this->quantityInStock = $quantityInStock;
 
             return $this;
         }
 
         /**
-         * Get quantityinstock.
+         * Get quantityInStock.
          *
          * @return int
          */
-        public function getQuantityinstock()
+        public function getQuantityInStock(): int
         {
-            return $this->quantityinstock;
+            return $this->quantityInStock;
         }
 
         /**
-         * Set buyprice.
+         * Set buyPrice.
          *
-         * @param string $buyprice
+         * @param float $buyPrice
          *
          * @return Products
          */
-        public function setBuyprice($buyprice): self
+        public function setBuyPrice(float $buyPrice): self
         {
-            $this->buyprice = $buyprice;
+            $this->buyPrice = $buyPrice;
 
             return $this;
         }
 
         /**
-         * Get buyprice.
+         * Get buyPrice.
          *
-         * @return string
+         * @return float
          */
-        public function getBuyprice()
+        public function getBuyPrice(): float
         {
-            return $this->buyprice;
+            return $this->buyPrice;
         }
 
         /**
          * Set msrp.
          *
-         * @param string $msrp
+         * @param float $msrp
          *
          * @return Products
          */
-        public function setMsrp($msrp): self
+        public function setMsrp(float $msrp): self
         {
             $this->msrp = $msrp;
 
@@ -270,70 +272,70 @@
         /**
          * Get msrp.
          *
-         * @return string
+         * @return float
          */
-        public function getMsrp()
+        public function getMsrp(): float
         {
             return $this->msrp;
         }
 
         /**
-         * Set productline.
+         * Set productLine.
          *
-         * @param Productlines|null $productline
+         * @param ProductLines|null $productLine
          *
          * @return Products
          */
-        public function setProductline(Productlines $productline = null): self
+        public function setProductLine(ProductLines $productLine = null): self
         {
-            $this->productline = $productline;
+            $this->productLine = $productLine;
 
             return $this;
         }
 
         /**
-         * Get productline.
+         * Get productLine.
          *
-         * @return Productlines|null
+         * @return ProductLines|null
          */
-        public function getProductline()
+        public function getProductLine(): ?ProductLines
         {
-            return $this->productline;
+            return $this->productLine;
         }
 
         /**
-         * Add ordernumber.
+         * Add orderNumber.
          *
-         * @param Orders $ordernumber
+         * @param Orders $orderNumber
          *
          * @return Products
          */
-        public function addOrdernumber(Entity\Orders $ordernumber): self
+        public function addOrderNumber(Entity\Orders $orderNumber): self
         {
-            $this->ordernumber[] = $ordernumber;
+            $this->orderNumber[] = $orderNumber;
 
             return $this;
         }
 
         /**
-         * Remove ordernumber.
+         * Remove orderNumber.
          *
-         * @param Orders $ordernumber
+         * @param Orders $orderNumber
          *
          * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
          */
-        public function removeOrdernumber(Entity\Orders $ordernumber)
+        public function removeOrderNumber(Entity\Orders $orderNumber): bool
         {
-            return $this->ordernumber->removeElement($ordernumber);
+            return $this->orderNumber->removeElement($orderNumber);
         }
 
         /**
-         * Get ordernumber.
+         * Get orderNumber.
          *
-         * @return Doctrine\Common\Collections\Collection
+         * @return ArrayCollection|Collection
          */
-        public function getOrdernumber()
+        public function getOrderNumber(): ArrayCollection|Collection
         {
-            return $this->ordernumber;
+            return $this->orderNumber;
         }
     }

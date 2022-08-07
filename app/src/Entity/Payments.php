@@ -21,21 +21,21 @@
          * @ORM\Id
          * @ORM\GeneratedValue(strategy="NONE")
          */
-        private $checknumber;
+        private string $checkNumber;
 
         /**
          * @var \DateTime
          *
          * @ORM\Column(name="paymentDate", type="date", nullable=false)
          */
-        private $paymentdate;
+        private \DateTime $paymentDate;
 
         /**
          * @var string
          *
          * @ORM\Column(name="amount", type="decimal", precision=10, scale=2, nullable=false)
          */
-        private $amount;
+        private string $amount;
 
         /**
          * @var Customers
@@ -47,55 +47,55 @@
          *   @ORM\JoinColumn(name="customerNumber", referencedColumnName="customerNumber")
          * })
          */
-        private $customernumber;
+        private Customers $customerNumber;
 
 
         /**
-         * Set checknumber.
+         * Set checkNumber.
          *
-         * @param string $checknumber
+         * @param string $checkNumber
          *
          * @return Payments
          */
-        public function setChecknumber($checknumber): self
+        public function setCheckNumber(string $checkNumber): self
         {
-            $this->checknumber = $checknumber;
+            $this->checkNumber = $checkNumber;
 
             return $this;
         }
 
         /**
-         * Get checknumber.
+         * Get checkNumber.
          *
          * @return string
          */
-        public function getChecknumber()
+        public function getCheckNumber(): string
         {
-            return $this->checknumber;
+            return $this->checkNumber;
         }
 
         /**
-         * Set paymentdate.
+         * Set paymentDate.
          *
-         * @param \DateTime $paymentdate
+         * @param \DateTime $paymentDate
          *
          * @return Payments
          */
-        public function setPaymentdate($paymentdate): self
+        public function setPaymentDate(\DateTime $paymentDate): self
         {
-            $this->paymentdate = $paymentdate;
+            $this->paymentDate = $paymentDate;
 
             return $this;
         }
 
         /**
-         * Get paymentdate.
+         * Get paymentDate.
          *
          * @return \DateTime
          */
-        public function getPaymentdate()
+        public function getPaymentDate(): \DateTime
         {
-            return $this->paymentdate;
+            return $this->paymentDate;
         }
 
         /**
@@ -105,7 +105,7 @@
          *
          * @return Payments
          */
-        public function setAmount($amount): self
+        public function setAmount(string $amount): self
         {
             $this->amount = $amount;
 
@@ -117,32 +117,32 @@
          *
          * @return string
          */
-        public function getAmount()
+        public function getAmount(): string
         {
             return $this->amount;
         }
 
         /**
-         * Set customernumber.
+         * Set customerNumber.
          *
-         * @param Customers $customernumber
+         * @param Customers $customerNumber
          *
          * @return Payments
          */
-        public function setCustomernumber(Customers $customernumber): self
+        public function setCustomerNumber(Customers $customerNumber): self
         {
-            $this->customernumber = $customernumber;
+            $this->customerNumber = $customerNumber;
 
             return $this;
         }
 
         /**
-         * Get customernumber.
+         * Get customerNumber.
          *
          * @return Customers
          */
-        public function getCustomernumber()
+        public function getCustomerNumber(): Customers
         {
-            return $this->customernumber;
+            return $this->customerNumber;
         }
     }

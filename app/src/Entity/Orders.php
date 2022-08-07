@@ -5,6 +5,8 @@
     namespace App\Entity;
 
     use Doctrine;
+    use Doctrine\Common\Collections\ArrayCollection;
+    use Doctrine\Common\Collections\Collection;
     use Doctrine\ORM\Mapping as ORM;
     use App\Entity;
 
@@ -23,42 +25,42 @@
          * @ORM\Id
          * @ORM\GeneratedValue(strategy="IDENTITY")
          */
-        private $ordernumber;
+        private int $orderNumber;
 
         /**
          * @var \DateTime
          *
          * @ORM\Column(name="orderDate", type="date", nullable=false)
          */
-        private $orderdate;
+        private \DateTime $orderDate;
 
         /**
          * @var \DateTime
          *
          * @ORM\Column(name="requiredDate", type="date", nullable=false)
          */
-        private $requireddate;
+        private \DateTime $requiredDate;
 
         /**
          * @var \DateTime|null
          *
          * @ORM\Column(name="shippedDate", type="date", nullable=true)
          */
-        private $shippeddate;
+        private ?\DateTime $shippedDate;
 
         /**
          * @var string
          *
          * @ORM\Column(name="status", type="string", length=15, nullable=false)
          */
-        private $status;
+        private string $status;
 
         /**
          * @var string|null
          *
          * @ORM\Column(name="comments", type="text", length=65535, nullable=true)
          */
-        private $comments;
+        private ?string $comments;
 
         /**
          * @var Customers
@@ -68,12 +70,12 @@
          *   @ORM\JoinColumn(name="customerNumber", referencedColumnName="customerNumber")
          * })
          */
-        private $customernumber;
+        private Customers $customerNumber;
 
         /**
          * @var Doctrine\Common\Collections\Collection
          *
-         * @ORM\ManyToMany(targetEntity="\App\Entity\Products", inversedBy="ordernumber")
+         * @ORM\ManyToMany(targetEntity="\App\Entity\Products", inversedBy="orderNumber")
          * @ORM\JoinTable(name="orderdetails",
          *   joinColumns={
          *	 @ORM\JoinColumn(name="orderNumber", referencedColumnName="orderNumber")
@@ -83,96 +85,96 @@
          *   }
          * )
          */
-        private $productcode = array();
+        private $productCode = array();
 
         /**
          * Constructor
          */
         public function __construct()
         {
-            $this->productcode = new \Doctrine\Common\Collections\ArrayCollection();
+            $this->productCode = new ArrayCollection();
         }
 
         /**
-         * Get ordernumber.
+         * Get orderNumber.
          *
          * @return int
          */
-        public function getOrdernumber()
+        public function getOrderNumber(): int
         {
-            return $this->ordernumber;
+            return $this->orderNumber;
         }
 
         /**
-         * Set orderdate.
+         * Set orderDate.
          *
-         * @param \DateTime $orderdate
+         * @param \DateTime $orderDate
          *
          * @return Orders
          */
-        public function setOrderdate($orderdate): self
+        public function setOrderDate(\DateTime $orderDate): self
         {
-            $this->orderdate = $orderdate;
+            $this->orderDate = $orderDate;
 
             return $this;
         }
 
         /**
-         * Get orderdate.
+         * Get orderDate.
          *
          * @return \DateTime
          */
-        public function getOrderdate()
+        public function getOrderDate(): \DateTime
         {
-            return $this->orderdate;
+            return $this->orderDate;
         }
 
         /**
-         * Set requireddate.
+         * Set requiredDate.
          *
-         * @param \DateTime $requireddate
+         * @param \DateTime $requiredDate
          *
          * @return Orders
          */
-        public function setRequireddate($requireddate): self
+        public function setRequiredDate(\DateTime $requiredDate): self
         {
-            $this->requireddate = $requireddate;
+            $this->requiredDate = $requiredDate;
 
             return $this;
         }
 
         /**
-         * Get requireddate.
+         * Get requiredDate.
          *
          * @return \DateTime
          */
-        public function getRequireddate()
+        public function getRequiredDate(): \DateTime
         {
-            return $this->requireddate;
+            return $this->requiredDate;
         }
 
         /**
-         * Set shippeddate.
+         * Set shippedDate.
          *
-         * @param \DateTime|null $shippeddate
+         * @param \DateTime|null $shippedDate
          *
          * @return Orders
          */
-        public function setShippeddate($shippeddate = null): self
+        public function setShippedDate(\DateTime $shippedDate = null): self
         {
-            $this->shippeddate = $shippeddate;
+            $this->shippedDate = $shippedDate;
 
             return $this;
         }
 
         /**
-         * Get shippeddate.
+         * Get shippedDate.
          *
          * @return \DateTime|null
          */
-        public function getShippeddate()
+        public function getShippedDate(): ?\DateTime
         {
-            return $this->shippeddate;
+            return $this->shippedDate;
         }
 
         /**
@@ -182,7 +184,7 @@
          *
          * @return Orders
          */
-        public function setStatus($status): self
+        public function setStatus(string $status): self
         {
             $this->status = $status;
 
@@ -194,7 +196,7 @@
          *
          * @return string
          */
-        public function getStatus()
+        public function getStatus(): string
         {
             return $this->status;
         }
@@ -206,7 +208,7 @@
          *
          * @return Orders
          */
-        public function setComments($comments = null): self
+        public function setComments(string $comments = null): self
         {
             $this->comments = $comments;
 
@@ -218,68 +220,68 @@
          *
          * @return string|null
          */
-        public function getComments()
+        public function getComments(): ?string
         {
             return $this->comments;
         }
 
         /**
-         * Set customernumber.
+         * Set customerNumber.
          *
-         * @param Customers|null $customernumber
+         * @param Customers|null $customerNumber
          *
          * @return Orders
          */
-        public function setCustomernumber(Customers $customernumber = null): self
+        public function setCustomerNumber(Customers $customerNumber = null): self
         {
-            $this->customernumber = $customernumber;
+            $this->customerNumber = $customerNumber;
 
             return $this;
         }
 
         /**
-         * Get customernumber.
+         * Get customerNumber.
          *
          * @return Customers|null
          */
-        public function getCustomernumber()
+        public function getCustomerNumber(): ?Customers
         {
-            return $this->customernumber;
+            return $this->customerNumber;
         }
 
         /**
-         * Add productcode.
+         * Add productCode.
          *
-         * @param Products $productcode
+         * @param Products $productCode
          *
          * @return Orders
          */
-        public function addProductcode(Entity\Products $productcode): self
+        public function addProductCode(Entity\Products $productCode): self
         {
-            $this->productcode[] = $productcode;
+            $this->productCode[] = $productCode;
 
             return $this;
         }
 
         /**
-         * Remove productcode.
+         * Remove productCode.
          *
-         * @param Products $productcode
+         * @param Products $productCode
          *
          * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
          */
-        public function removeProductcode(Entity\Products $productcode)
+        public function removeProductCode(Entity\Products $productCode): bool
         {
-            return $this->productcode->removeElement($productcode);
+            return $this->productCode->removeElement($productCode);
         }
 
         /**
-         * Get productcode.
+         * Get productCode.
          *
-         * @return Doctrine\Common\Collections\Collection
+         * @return ArrayCollection|Collection
          */
-        public function getProductcode()
+        public function getProductCode(): ArrayCollection|Collection
         {
-            return $this->productcode;
+            return $this->productCode;
         }
     }

@@ -7,12 +7,12 @@
     use Doctrine\ORM\Mapping as ORM;
 
     /**
-     * Productlines
+     * ProductLines
      *
-     * @ORM\Table(name="productlines")
+     * @ORM\Table(name="productLines")
      * @ORM\Entity
      */
-    class Productlines
+    class ProductLines
     {
         /**
          * @var string
@@ -21,86 +21,86 @@
          * @ORM\Id
          * @ORM\GeneratedValue(strategy="IDENTITY")
          */
-        private $productline;
+        private string $productLine;
 
         /**
          * @var string|null
          *
          * @ORM\Column(name="textDescription", type="string", length=4000, nullable=true)
          */
-        private $textdescription;
+        private ?string $textDescription;
 
         /**
          * @var string|null
          *
          * @ORM\Column(name="htmlDescription", type="text", length=16777215, nullable=true)
          */
-        private $htmldescription;
+        private ?string $htmlDescription;
 
         /**
          * @var string|null
          *
          * @ORM\Column(name="image", type="blob", length=16777215, nullable=true)
          */
-        private $image;
+        private ?string $image;
 
 
         /**
-         * Get productline.
+         * Get productLine.
          *
          * @return string
          */
-        public function getProductline()
+        public function getProductLine(): string
         {
-            return $this->productline;
+            return $this->productLine;
         }
 
         /**
-         * Set textdescription.
+         * Set textDescription.
          *
-         * @param string|null $textdescription
+         * @param string|null $textDescription
          *
-         * @return Productlines
+         * @return ProductLines
          */
-        public function setTextdescription($textdescription = null): self
+        public function setTextDescription(string $textDescription = null): self
         {
-            $this->textdescription = $textdescription;
+            $this->textDescription = $textDescription;
 
             return $this;
         }
 
         /**
-         * Get textdescription.
+         * Get textDescription.
          *
          * @return string|null
          */
-        public function getTextdescription()
+        public function getTextDescription(): ?string
         {
-            return $this->textdescription;
+            return $this->textDescription;
         }
 
         /**
-         * Set htmldescription.
+         * Set htmlDescription.
          *
-         * @param string|null $htmldescription
+         * @param string|null $htmlDescription
          *
-         * @return Productlines
+         * @return ProductLines
          */
-        public function setHtmldescription($htmldescription = null): self
+        public function setHtmlDescription(string $htmlDescription = null): self
         {
-            $this->htmldescription = $htmldescription;
+            $this->htmlDescription = $htmlDescription;
 
             return $this;
         }
 
         /**
-         * Get htmldescription.
+         * Get htmlDescription.
          *
          * @return string|null
          */
-        public function getHtmldescription()
+        public function getHtmlDescription(): ?string
         {
-            return $this->htmldescription;
+            return $this->htmlDescription;
         }
 
         /**
@@ -108,9 +108,9 @@
          *
          * @param string|null $image
          *
-         * @return Productlines
+         * @return ProductLines
          */
-        public function setImage($image = null): self
+        public function setImage(string $image = null): self
         {
             $this->image = $image;
 
@@ -122,7 +122,7 @@
          *
          * @return string|null
          */
-        public function getImage()
+        public function getImage(): ?string
         {
             return $this->image;
         }

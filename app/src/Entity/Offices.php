@@ -21,73 +21,73 @@
          * @ORM\Id
          * @ORM\GeneratedValue(strategy="IDENTITY")
          */
-        private $officecode;
+        private string $officeCode;
 
         /**
          * @var string
          *
          * @ORM\Column(name="city", type="string", length=50, nullable=false)
          */
-        private $city;
+        private string $city;
 
         /**
          * @var string
          *
          * @ORM\Column(name="phone", type="string", length=50, nullable=false)
          */
-        private $phone;
+        private string $phone;
 
         /**
          * @var string
          *
          * @ORM\Column(name="addressLine1", type="string", length=50, nullable=false)
          */
-        private $addressline1;
+        private string $addressLine1;
 
         /**
          * @var string|null
          *
          * @ORM\Column(name="addressLine2", type="string", length=50, nullable=true)
          */
-        private $addressline2;
+        private ?string $addressLine2;
 
         /**
          * @var string|null
          *
          * @ORM\Column(name="state", type="string", length=50, nullable=true)
          */
-        private $state;
+        private ?string $state;
 
         /**
          * @var string
          *
          * @ORM\Column(name="country", type="string", length=50, nullable=false)
          */
-        private $country;
+        private string $country;
 
         /**
          * @var string
          *
          * @ORM\Column(name="postalCode", type="string", length=15, nullable=false)
          */
-        private $postalcode;
+        private string $postalCode;
 
         /**
          * @var string
          *
          * @ORM\Column(name="territory", type="string", length=10, nullable=false)
          */
-        private $territory;
+        private string $territory;
 
 
         /**
-         * Get officecode.
+         * Get officeCode.
          *
          * @return string
          */
-        public function getOfficecode()
+        public function getOfficeCode(): string
         {
-            return $this->officecode;
+            return $this->officeCode;
         }
 
         /**
@@ -97,7 +97,7 @@
          *
          * @return Offices
          */
-        public function setCity($city): self
+        public function setCity(string $city): self
         {
             $this->city = $city;
 
@@ -109,7 +109,7 @@
          *
          * @return string
          */
-        public function getCity()
+        public function getCity(): string
         {
             return $this->city;
         }
@@ -121,7 +121,7 @@
          *
          * @return Offices
          */
-        public function setPhone($phone): self
+        public function setPhone(string $phone): self
         {
             $this->phone = $phone;
 
@@ -133,57 +133,57 @@
          *
          * @return string
          */
-        public function getPhone()
+        public function getPhone(): string
         {
             return $this->phone;
         }
 
         /**
-         * Set addressline1.
+         * Set addressLine1.
          *
-         * @param string $addressline1
+         * @param string $addressLine1
          *
          * @return Offices
          */
-        public function setAddressline1($addressline1): self
+        public function setAddressLine1(string $addressLine1): self
         {
-            $this->addressline1 = $addressline1;
+            $this->addressLine1 = $addressLine1;
 
             return $this;
         }
 
         /**
-         * Get addressline1.
+         * Get addressLine1.
          *
          * @return string
          */
-        public function getAddressline1()
+        public function getAddressLine1(): string
         {
-            return $this->addressline1;
+            return $this->addressLine1;
         }
 
         /**
-         * Set addressline2.
+         * Set addressLine2.
          *
-         * @param string|null $addressline2
+         * @param string|null $addressLine2
          *
          * @return Offices
          */
-        public function setAddressline2($addressline2 = null): self
+        public function setAddressLine2(string $addressLine2 = null): self
         {
-            $this->addressline2 = $addressline2;
+            $this->addressLine2 = $addressLine2;
 
             return $this;
         }
 
         /**
-         * Get addressline2.
+         * Get addressLine2.
          *
          * @return string|null
          */
-        public function getAddressline2()
+        public function getAddressLine2(): ?string
         {
-            return $this->addressline2;
+            return $this->addressLine2;
         }
 
         /**
@@ -193,7 +193,7 @@
          *
          * @return Offices
          */
-        public function setState($state = null): self
+        public function setState(string $state = null): self
         {
             $this->state = $state;
 
@@ -205,7 +205,7 @@
          *
          * @return string|null
          */
-        public function getState()
+        public function getState(): ?string
         {
             return $this->state;
         }
@@ -217,7 +217,7 @@
          *
          * @return Offices
          */
-        public function setCountry($country): self
+        public function setCountry(string $country): self
         {
             $this->country = $country;
 
@@ -229,33 +229,33 @@
          *
          * @return string
          */
-        public function getCountry()
+        public function getCountry(): string
         {
             return $this->country;
         }
 
         /**
-         * Set postalcode.
+         * Set postalCode.
          *
-         * @param string $postalcode
+         * @param string $postalCode
          *
          * @return Offices
          */
-        public function setPostalcode($postalcode): self
+        public function setPostalCode(string $postalCode): self
         {
-            $this->postalcode = $postalcode;
+            $this->postalCode = $postalCode;
 
             return $this;
         }
 
         /**
-         * Get postalcode.
+         * Get postalCode.
          *
          * @return string
          */
-        public function getPostalcode()
+        public function getPostalCode(): string
         {
-            return $this->postalcode;
+            return $this->postalCode;
         }
 
         /**
@@ -265,7 +265,7 @@
          *
          * @return Offices
          */
-        public function setTerritory($territory): self
+        public function setTerritory(string $territory): self
         {
             $this->territory = $territory;
 
@@ -277,7 +277,7 @@
          *
          * @return string
          */
-        public function getTerritory()
+        public function getTerritory(): string
         {
             return $this->territory;
         }

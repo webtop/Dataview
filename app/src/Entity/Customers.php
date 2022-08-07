@@ -9,7 +9,8 @@
     /**
      * Customers
      *
-     * @ORM\Table(name="customers", indexes={@ORM\Index(name="salesRepEmployeeNumber", columns={"salesRepEmployeeNumber"})})
+     * @ORM\Table(name="customers", indexes={
+     *     @ORM\Index(name="salesRepEmployeeNumber", columns={"salesRepEmployeeNumber"})})
      * @ORM\Entity
      */
     class Customers
@@ -110,7 +111,6 @@
          */
         private Employees $salesRepEmployeeNumber;
 
-
         /**
          * Get customerNumber.
          *
@@ -131,7 +131,6 @@
         public function setCustomerName(string $customerName): self
         {
             $this->customerName = $customerName;
-
             return $this;
         }
 
@@ -155,7 +154,6 @@
         public function setContactLastname(string $contactLastname): self
         {
             $this->contactLastname = $contactLastname;
-
             return $this;
         }
 
@@ -179,7 +177,6 @@
         public function setContactFirstname(string $contactFirstname): self
         {
             $this->contactFirstname = $contactFirstname;
-
             return $this;
         }
 
@@ -203,7 +200,6 @@
         public function setPhone(string $phone): self
         {
             $this->phone = $phone;
-
             return $this;
         }
 
@@ -218,21 +214,6 @@
         }
 
         /**
-         * Return the combined address.
-         * @return string
-         */
-        public function getAddress(): string
-        {
-            $addr2 = empty($this->addressLine2) ? '' : ', ' . $this->addressLine2;
-            $state = empty($this->state) ? '' : ', ' . $this->state;
-            return $this->addressLine1 . $addr2 .
-                ', ' . $this->city .
-                ', ' . $this->postalCode .
-                $state .
-                ', ' . $this->country;
-        }
-
-        /**
          * Set addressLine1.
          *
          * @param string $addressLine1
@@ -242,7 +223,6 @@
         public function setAddressLine1(string $addressLine1): self
         {
             $this->addressLine1 = $addressLine1;
-
             return $this;
         }
 
@@ -266,7 +246,6 @@
         public function setAddressLine2(string $addressLine2 = null): self
         {
             $this->addressLine2 = $addressLine2;
-
             return $this;
         }
 
@@ -290,7 +269,6 @@
         public function setCity(string $city): self
         {
             $this->city = $city;
-
             return $this;
         }
 
@@ -314,7 +292,6 @@
         public function setState(string $state = null): self
         {
             $this->state = $state;
-
             return $this;
         }
 
@@ -338,7 +315,6 @@
         public function setPostalCode(string $postalCode = null): self
         {
             $this->postalCode = $postalCode;
-
             return $this;
         }
 
@@ -362,7 +338,6 @@
         public function setCountry(string $country): self
         {
             $this->country = $country;
-
             return $this;
         }
 
@@ -379,14 +354,13 @@
         /**
          * Set creditLimit.
          *
-         * @param string|null $creditLimit
+         * @param float|null $creditLimit
          *
          * @return Customers
          */
-        public function setCreditLimit(string $creditLimit = null): self
+        public function setCreditLimit(float $creditLimit = null): self
         {
             $this->creditLimit = $creditLimit;
-
             return $this;
         }
 
@@ -410,7 +384,6 @@
         public function setSalesRepEmployeeNumber(Employees $salesRepEmployeeNumber = null): self
         {
             $this->salesRepEmployeeNumber = $salesRepEmployeeNumber;
-
             return $this;
         }
 
