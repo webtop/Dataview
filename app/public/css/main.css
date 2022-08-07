@@ -43,6 +43,14 @@ body div#main tbody tr.editing {
 body div#main tbody td.hidden {
   display: none;
 }
+body div#main caption {
+  border: 1px solid #a1a1a1;
+  border-radius: 5px;
+  box-shadow: 0 0 4px #a1a1a1;
+  height: auto;
+  padding: 6px;
+  margin-bottom: 6px;
+}
 body div#main div#floated_action_buttons {
   position: absolute;
   display: none;
@@ -51,9 +59,17 @@ body div#main div#floated_action_buttons {
   background-color: #cde2ff;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
+body div#main form#new_record {
+  border: 1px solid #a1a1a1;
+  border-radius: 5px;
+  width: 92%;
+}
 body footer {
   text-align: center;
   background: #cde2ff;
+}
+body span.required {
+  color: #ff0000 !important;
 }
 
 /*# sourceMappingURL=main.css.map */

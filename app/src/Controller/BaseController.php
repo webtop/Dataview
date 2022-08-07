@@ -3,7 +3,9 @@
 
     namespace App\Controller;
 
+    use Doctrine\Inflector\InflectorFactory;
     use Doctrine\ORM\EntityManager;
+    use JetBrains\PhpStorm\NoReturn;
     use Psr\Container\ContainerExceptionInterface;
     use Psr\Container\NotFoundExceptionInterface;
     use Sunrise\Http\ServerRequest\ServerRequest as Request;
@@ -28,6 +30,7 @@
         protected EntityManager $entityManager;
         protected Environment $twig;
         protected Logger $logger;
+        protected \Doctrine\Inflector\Inflector $inflector;
 
         /**
          * @throws NotFoundExceptionInterface
@@ -35,10 +38,11 @@
          */
         public function __construct(ContainerInterface $container)
         {
-            $this->config = $_SESSION ?? $container->get('Config');
+            $this->config = array_merge($container->get('Config'), $_SESSION ?? []);
             $this->entityManager = $container->get(EntityManager::class);
             $this->twig = $container->get(Environment::class);
             $this->logger = $container->get(Logger::class);
+            $this->inflector = InflectorFactory::create()->build();
         }
 
         public static function prettyPrint($data, bool $exit = false): void
@@ -142,5 +146,12 @@
                 throw new \PDOException($e->getMessage(), (int)$e->getCode());
             }
             return $conn;
+        }
+
+        #[NoReturn]
+        protected function redirect(string $location): void
+        {
+            header("Location: $location");
+            exit;
         }
     }

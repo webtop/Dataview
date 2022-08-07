@@ -11,12 +11,14 @@
     $DB_NAME = getenv('DB_NAME') ?? 'classicmodels';
     $DB_USER = getenv('DB_USER') ?? 'dataview';
     $DB_PASS = getenv('DB_PASS') ?? 'QnQbB8000$10';
+    $MAPS_API_KEY = getenv('MAPS_API_KEY') ?? "You need an API key -- they're free!";
 
     // ...so we set them up using defines from above.
     define('DB_HOST', $DB_HOST);
     define('DB_NAME', $DB_NAME);
     define('DB_USER', $DB_USER);
     define('DB_PASS', $DB_PASS);
+    define('MAPS_API_KEY', $MAPS_API_KEY);
 
     // Paths to the project roots.
     define("ROOT", realpath(__DIR__ . '/../'));

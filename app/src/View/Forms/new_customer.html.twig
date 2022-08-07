@@ -1,0 +1,38 @@
+{% extends 'Layouts/main.html.twig' %}
+{% block content %}
+<p>
+    <span class="required">*</span> denotes required field
+</p>
+<form class="row g-3 bg-light pb-2" id="new_record" method="post" action="{{ submission_url }}">
+    {% for field in fields %}
+        {% if field.type == 'select' %}
+            <div class="col">
+                <label class="text-center" for="{{ field.name }}">{{ field.label }}: </label>
+                <select class="form-select" id="{{ field.name }}" name="{{ field.name }}">
+                    <option value="">Select {{ field.label }}</option>
+                    {% for option in field.options %}
+                        <option value="{{ option.value }}">{{ option.label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        {%  else %}
+            {% if field.name == 'addressLine1' or field.name == 'addressLine2' %}
+            <div class="col-md-12">
+            {% else %}
+            <div class="col-md-6">
+            {% endif %}
+                <label class="text-center" for="{{ field.name }}">{{ field.label }}{% if field.required == true %} <span class="required">*</span>{% endif %} </label>
+            {% if field.type == 'number' %}
+                <input type="number" class="form-control" id="{{ field.name }}" name="{{ field.name }}"{% if field.required == true %} required="required"{% endif %}>
+            {% else %}
+                <input type="text" class="form-control" id="{{ field.name }}" name="{{ field.name }}"{% if field.required == true %} required="required"{% endif %}>
+            {% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
+    <div class="col-md-12">
+        <button type="button" class="btn btn-secondary float-end m-2" id="new_row_cancel">Cancel</button>
+        <button type="submit" class="btn btn-primary float-end m-2" id="new_row_submit">Submit</button>
+    </div>
+</form>
+{% endblock %}

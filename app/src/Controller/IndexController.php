@@ -8,6 +8,7 @@
     use Doctrine\Common\Collections\Criteria;
     use Doctrine\Inflector\Inflector;
     use Doctrine\Inflector\InflectorFactory;
+    use JetBrains\PhpStorm\NoReturn;
     use Psr\Container\ContainerExceptionInterface;
     use Psr\Container\ContainerInterface;
     use Psr\Container\NotFoundExceptionInterface;
@@ -31,10 +32,13 @@
         #[Mapping\Route('home', path: '/home')]
         public function home(Request $request): Response
         {
-            return $this->render('index.html.twig', [
-                'title' => 'Home',
-                'db_loaded' => $this->getIsDbLoaded(),
-            ]);
+            if (!$this->getIsDbLoaded()) {
+                return $this->render('index.html.twig', [
+                    'title' => 'Home',
+                    'db_loaded' => $this->getIsDbLoaded(),
+                ]);
+            }
+            $this->redirect('/data');
         }
 
         /**
@@ -140,9 +144,8 @@
         #[Mapping\Route('show_table', path: '/data/{table}', method: 'GET')]
         public function showTable(Request $request): Response
         {
-            $inflector = InflectorFactory::create()->build();
-            $model_name = '\App\Model\\' . $inflector->singularize($request->getAttribute('table'));
-            $model = new $model_name($this->entityManager);
+            $model_name = '\App\Model\\' . $this->inflector->singularize($request->getAttribute('table'));
+            $model = new $model_name($this->entityManager, $this->config);
             $items = $model->getAll();
             return $this->render([
                 'items' => $items,
@@ -208,16 +211,86 @@
          * @throws RuntimeError
          * @throws LoaderError
          */
-        #[Mapping\Route('update_table', path: '/data/{table}/update', method: 'PUT')]
+        #[Mapping\Route('update_table', path: '/data/{table}/update', method: 'POST')]
         public function updateTable(Request $request): Response
         {
-            $inflector = InflectorFactory::create()->build();
-            $model_name = '\App\Model\\' . $inflector->singularize($request->getAttribute('table'));
-            $model = new $model_name($this->entityManager);
-            $model->update($request->getBody()->getContents());
+            $model_name = '\App\Model\\' . $this->inflector->singularize($request->getAttribute('table'));
+            $model = new $model_name($this->entityManager, $this->config);
+            $model->update($request->getParsedBody()['update']);
             return $this->render([
                 'success' => true,
                 'message' => 'Table updated!'
+            ], [], true);
+        }
+
+        /**
+         * @throws SyntaxError
+         * @throws RuntimeError
+         * @throws LoaderError
+         */
+        #[Mapping\Route('add_new', path: '/new/{table}', method: 'GET')]
+        public function newRecord(Request $request): Response
+        {
+            $inflector = InflectorFactory::create()->build();
+            $singular = $this->inflector->singularize($request->getAttribute('table'));
+            $model_name = '\App\Model\\' . $singular;
+            $model = new $model_name($this->entityManager, $this->config);
+            $fields = $model->getAllFields();
+            $template_name = 'Forms/new_' . strtolower($singular) . '.html.twig';
+            return $this->render($template_name, [
+                'title' => 'New ' . $inflector->singularize($request->getAttribute('table')),
+                'fields' => $fields,
+                'submission_url' => '/new/' . $request->getAttribute('table') . '/submit',
+                'db_loaded' => $this->getIsDbLoaded()
+            ]);
+        }
+
+        /**
+         * @throws SyntaxError
+         * @throws RuntimeError
+         * @throws LoaderError
+         */
+        #[Mapping\Route('submit_new', path: '/new/{table}/submit', method: 'POST')]
+        public function submitRecord(Request $request): Response
+        {
+            $singular = $this->inflector->singularize($request->getAttribute('table'));
+            $model_name = '\App\Model\\' . $singular;
+            $model = new $model_name($this->entityManager, $this->config);
+            try {
+                $model->create($request->getParsedBody());
+            } catch (\Exception $ex) {
+                return $this->render([
+                    'success' => false,
+                    'message' => $ex->getMessage()
+                ], [], true);
+            }
+            $tables = (new TableController)->getTables($this->entityManager);
+            $items = $model->getAll();
+            return $this->render('Layouts/main.html.twig', [
+                'title' => 'Data',
+                'tables' => $tables,
+                'db_loaded' => $this->getIsDbLoaded(),
+                'items' => $items,
+                'position' => $_SESSION['db']['cursor_position'],
+                'max' => $_SESSION['db']['cursor_max_position'],
+            ]);
+        }
+
+        /**
+         * @throws SyntaxError
+         * @throws RuntimeError
+         * @throws LoaderError
+         */
+        #[Mapping\Route('delete_record', path: '/data/{table}/delete', method: 'POST')]
+        public function deleteRecord(Request $request): Response
+        {
+            $singular = $this->inflector->singularize($request->getAttribute('table'));
+            $model_name = '\App\Model\\' . $singular;
+            $model = new $model_name($this->entityManager, $this->config);
+            $success = $model->delete((int)$request->getParsedBody()['id']);
+            return $this->render([
+                'success' => $success,
+                'message' => ($success) ? 'Record deleted!' : 'Record not found!'
             ], [], true);
         }
     }

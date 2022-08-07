@@ -31,9 +31,10 @@
                 'cache_path' => CACHE_PATH,
                 'root' => ROOT,
                 'log_root' => LOG_ROOT,
+                'maps_api_key' => MAPS_API_KEY,
                 'db' => [
                     'is_loaded' => $_SESSION['db']['is_loaded'] ?? false
-                ]
+                ],
             ],
             Logger::class => function(): Logger {
                 $logger = new Logger('dataview');

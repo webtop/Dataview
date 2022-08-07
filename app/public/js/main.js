@@ -8,6 +8,10 @@ $(document).ready(() => {
     //const action_bar = new ActionNavBar();
     //action_bar.init('.action_nav_bar');
 
+    if ($('form#new_record').length > 0) {
+        $('form#new_record input:first').focus();
+    }
+
     const show_error = (message) => {
         $('span', '#error_container').text(message);
         $('#db_error').show();
@@ -49,9 +53,14 @@ $(document).ready(() => {
         let tbody = $('table#main_content_table tbody');
         for (let item in items) {
             let row = $('<tr>');
-            let edit_button = $('<td class="hidden"><button class="btn btn-sm btn-success edit_buttons bi-pencil"></button></td>');
-            edit_button.on('click', set_edit_row);
-            row.append(edit_button);
+            let cell = $('<td class="hidden">');
+            /**
+             * These buttons get used interchangeably for edit and delete,
+             * so we won't attach handlers until we need to
+             */
+            let edit_button = $('<button class="btn btn-sm btn-success edit_buttons bi-pencil"></button>');
+            cell.append(edit_button);
+            row.append(cell);
             for (let key in items[item]) {
                 let cell = $('<td data-id="' + items[item][key]['key'] + '" data-val="' + items[item][key]['value'] + '">');
                 cell.text(items[item][key]['value']);
@@ -86,9 +95,8 @@ $(document).ready(() => {
     };
 
     const unhide_table_buttons = (item) => {
-        $('#table_nav_buttons').removeClass('invisible');
         $('#positional_data').removeClass('invisible');
-        $('#table_action_buttons').removeClass('invisible');
+        $('#main_content_table caption').removeClass('invisible');
     };
 
     const navigate_to = () => {
@@ -104,6 +112,7 @@ $(document).ready(() => {
 
     const set_edit_state = () => {
         let buttons = $('.edit_buttons');
+        buttons.on('click', edit_row);
         buttons.removeClass('invisible').parent().removeClass('hidden');
         $('table#main_content_table thead tr th:first-child').text('Edit').removeClass('hidden');
         $('.action_nav_bar button').attr('disabled', 'disabled');
@@ -111,6 +120,7 @@ $(document).ready(() => {
 
     const cancel_edit_state = () => {
         let buttons = $('.edit_buttons');
+        buttons.off('click', edit_row);
         buttons.parent().addClass('hidden');
         $('div#floated_action_buttons').hide();
         $('table#main_content_table thead tr th:first-child').addClass('hidden');
@@ -120,7 +130,59 @@ $(document).ready(() => {
         update_navigation(current_position, current_max);
     }
 
-    const set_edit_row = (evt) => {
+    const set_delete_state = () => {
+        let buttons = $('.edit_buttons');
+        buttons.removeClass('bi-pencil')
+          .addClass('bi-trash')
+          .removeClass('invisible')
+          .parent().removeClass('hidden');
+        buttons.on('click', delete_row);
+        $('table#main_content_table thead tr th:first-child').text('Delete').removeClass('hidden');
+        $('.action_nav_bar button').attr('disabled', 'disabled');
+    }
+
+    const cancel_delete_state = () => {
+        let buttons = $('.edit_buttons');
+        buttons.off('click', delete_row);
+        buttons.parent().addClass('hidden');
+        $('div#floated_action_buttons').hide();
+        $('table#main_content_table thead tr th:first-child').addClass('hidden');
+        $('table#main_content_table').removeClass('deleting');
+        $('.action_nav_bar button').removeAttr('disabled');
+
+        update_navigation(current_position, current_max);
+    }
+
+    const delete_row = (evt) => {
+        let row = $($(evt.target).closest('tr'));
+        let id = row.find('td[data-id="customerNumber"]').attr('data-val');
+        current_edit_row = row;
+        if (confirm('Are you sure you want to delete this row?')) {
+            $.ajax({
+                url: '/data/' + $('#table_selector option:selected').val() + '/delete',
+                data: {
+                    id: id
+                },
+                type: 'POST',
+                success: function (response) {
+                    if (response.success) {
+                        current_edit_row.remove();
+                        current_edit_row = null;
+                    } else {
+                        show_error(response.message);
+                    }
+
+                    cancel_delete_state();
+                },
+                error: function (response) {
+                    show_error('An error occurred while attempting to delete a record.');
+                    cancel_edit();
+                }
+            });
+        }
+    }
+
+    const edit_row = (evt) => {
         let row = $($(evt.target).closest('tr'));
         row.addClass('editing');
         current_edit_row = row;
@@ -131,8 +193,8 @@ $(document).ready(() => {
             if (cell_idx < 2) continue; // edit button cell
             let cell_obj = $(cells[cell_idx]);
             let input = $('<input type="text" class="form-control-sm">');
-            input.val(cell_obj.data('val'));
-            input.attr('name', cell_obj.data('id'));
+            input.val(cell_obj.attr('data-val'));
+            input.attr('name', cell_obj.attr('data-id'));
             cell_obj.text('');
             cell_obj.append(input[0]);
         }
@@ -145,13 +207,11 @@ $(document).ready(() => {
         }).show();
 
         $('.edit_buttons').addClass('invisible');
-
-        action_bar.update_button_states('edit', {
-            'removeClass': 'bi-x-circle',
-            'addClass': 'bi-pencil',
-            'data': {'action': 'edit'},
-            'attr': {'disabled': 'disabled'}
-        });
+        $('div#table_action_buttons').find('button[data-action="edit"]')
+          .removeClass('bi-x-circle')
+          .addClass('bi-pencil')
+          .attr('data-action', 'edit')
+          .attr('disabled', 'disabled');
     };
 
     const set_save_row = (evt) => {
@@ -163,34 +223,40 @@ $(document).ready(() => {
             if (cell_idx === 0) continue; // edit button cell
             let cell_obj = $(cells[cell_idx]);
             if (cell_idx === 1) { // ids are not editable...obviously!
-                data[cell_obj.data('id')] = cell_obj.text();
+                data[cell_obj.attr('data-id')] = cell_obj.text();
             } else {
                 // only send what changed
-                if (cell_obj.data('val') !== cell_obj.find('input').val()) {
-                    data[cell_obj.data('id')] = cell_obj.find('input').val();
+                if (cell_obj.attr('data-val') !== cell_obj.find('input').val()) {
+                    data[cell_obj.attr('data-id')] = cell_obj.find('input').val();
                 }
             }
         }
 
         $.ajax({
             url: '/data/' + $('#table_selector option:selected').val() + '/update',
-            type: 'PUT',
-            data: data,
+            type: 'POST',
+            data: {
+                update: data
+            },
             success: function (response) {
                 let cells = current_edit_row[0].childNodes;
                 for (let cell in cells) {
                     let cell_idx = parseInt(cell);
+                    if (isNaN(cell_idx)) break;
+                    if (cell_idx === 0) continue; // edit button cell
                     let cell_obj = $(cells[cell_idx]);
-                    if ($('input', cell_obj)) {
-                        if (cell_obj.data('val') !== cell_obj.find('input').val()) {
-                            cell_obj.data('val', cell_obj.find('input').val());
+                    if (cell_obj.find('input').length > 0) {
+                        let new_val = cell_obj.find('input').val();
+                        if (cell_obj.attr('data-val') !== new_val) {
+                            cell_obj.attr('data-val', new_val);
                         }
+                        cell_obj.text(new_val);
                     }
                 }
                 cancel_edit_state();
             },
             error: function (response) {
-                show_error('An error occurred while testing the database connection.');
+                show_error('An error occurred while attempting to add a record.');
                 cancel_edit();
             }
         });
@@ -202,7 +268,7 @@ $(document).ready(() => {
             if (isNaN(cell_idx)) break;
             if (cell_idx < 2) continue; // edit button cell
             let cell_obj = $(current_edit_row[0].childNodes[cell_idx]);
-            cell_obj.text(cell_obj.data('val'));
+            cell_obj.text(cell_obj.attr('data-val'));
         }
         cancel_edit_state();
     };
@@ -232,6 +298,10 @@ $(document).ready(() => {
     };
 
     update_state();
+
+    $('button#new_row_cancel').on('click', () => {
+        location.href = '/data';
+    });
 
     $('button#test').on('click', () => {
         $('form button').attr('disabled', 'disabled');
@@ -310,26 +380,42 @@ $(document).ready(() => {
         let button = $(evt.target);
         let headers = $('table#main_content_table thead tr');
         let rows = $('table#main_content_table tbody tr');
-        switch (button.data('action')) {
+        switch (button.attr('data-action')) {
             case 'edit':
+                set_edit_state();
                 button.removeClass('bi-pencil')
                   .addClass('bi-x-circle')
-                  .data('action', 'cancel')
+                  .attr('data-action', 'cancel-edit')
                   .removeAttr('disabled');
                 break;
             case 'add':
+                location.href = '/new/' + $('#table_selector option:selected').val();
                 break;
             case 'delete':
+                set_delete_state();
+                button.removeClass('bi-trash')
+                  .addClass('bi-x-circle')
+                  .attr('data-action', 'cancel-delete')
+                  .removeAttr('disabled');
                 break;
-            case 'cancel':
-                //cancel_edit_state();
+            case 'cancel-edit':
+                cancel_edit_state();
                 button.removeClass('bi-x-circle')
                   .addClass('bi-pencil')
-                  .data('action', 'edit')
+                  .attr('data-action', 'edit')
                   .blur();
+                break;
+            case 'cancel-delete':
+                cancel_delete_state();
+                button.removeClass('bi-x-circle')
+                  .addClass('bi-trash')
+                  .attr('data-action', 'delete')
+                  .blur();
+                break;
         }
     });
 
+    $('#table_nav_buttons button').on('click', navigate_to);
     $('button#cancel_edit').on('click', cancel_edit);
     $('button#save_edit').on('click', set_save_row);
 });

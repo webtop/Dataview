@@ -28,7 +28,7 @@ DROP TABLE IF EXISTS `customers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `customers` (
-  `customerNumber` int(11) NOT NULL,
+  `customerNumber` int(11) NOT NULL AUTO_INCREMENT,
   `customerName` varchar(50) NOT NULL,
   `contactLastName` varchar(50) NOT NULL,
   `contactFirstName` varchar(50) NOT NULL,
@@ -42,6 +42,7 @@ CREATE TABLE `customers` (
   `salesRepEmployeeNumber` int(11) DEFAULT NULL,
   `creditLimit` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`customerNumber`),
+  UNIQUE KEY `uniqueCustomer` (`customerName`,`country`),
   KEY `salesRepEmployeeNumber` (`salesRepEmployeeNumber`),
   CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`salesRepEmployeeNumber`) REFERENCES `employees` (`employeeNumber`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -65,7 +66,7 @@ DROP TABLE IF EXISTS `employees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `employees` (
-  `employeeNumber` int(11) NOT NULL,
+  `employeeNumber` int(11) NOT NULL AUTO_INCREMENT,
   `lastName` varchar(50) NOT NULL,
   `firstName` varchar(50) NOT NULL,
   `extension` varchar(10) NOT NULL,
@@ -130,7 +131,7 @@ DROP TABLE IF EXISTS `orderdetails`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orderdetails` (
-  `orderNumber` int(11) NOT NULL,
+  `orderNumber` int(11) NOT NULL AUTO_INCREMENT,
   `productCode` varchar(15) NOT NULL,
   `quantityOrdered` int(11) NOT NULL,
   `priceEach` decimal(10,2) NOT NULL,
