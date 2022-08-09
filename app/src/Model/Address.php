@@ -23,6 +23,10 @@
 
         private int $strictMatch = -1;
 
+        private bool $hasOptions = false;
+
+        private array $options = [];
+
         public function __construct(EntityManager $entityManager, array $config)
         {
             parent::__construct($entityManager, $config);
@@ -73,10 +77,10 @@
         }
 
         /**
-         * @return array
+         * @return bool
          * @throws \Exception
          */
-        public function validate(): array
+        public function validate(): bool
         {
             $maps_api_key = $this->config['maps_api_key'];
             if (empty($maps_api_key)) {
@@ -115,9 +119,22 @@
             }
 
             if ($response['resourceSets'][0]['resources'][0]['confidence'] === 'High') {
-                return [true, []];
+                return true;
+            } else {
+                $this->options = $response['resourceSets'][0]['resources'];
+                $this->hasOptions = true;
             }
-            return [false, $response['resourceSets'][0]['resources'][0]['address']];
+            return false;
+        }
+
+        public function hasOptions(): bool
+        {
+            return $this->hasOptions;
+        }
+
+        public function getOptions(): array
+        {
+            return $this->options;
         }
 
         private function sortByConfidence(mixed $resources)

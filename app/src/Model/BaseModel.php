@@ -13,7 +13,7 @@
         protected array $config;
 
         /**
-         * During model initialization we get a count of the max number of records in the models table.
+         * During model initialization we get a count of the max number of records in the model table.
          * @param EntityManager $entityManager
          * @param array $config
          */
@@ -27,4 +27,5 @@
                 $_SESSION['db']['cursor_max_position'] = $max;
             }
         }
+
     }

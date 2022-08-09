@@ -80,9 +80,8 @@
          */
         private Employees $reportsTo;
 
-
         /**
-         * Get employeenumber.
+         * Get employeeNumber.
          *
          * @return int
          */
@@ -92,15 +91,15 @@
         }
 
         /**
-         * Set lastname.
+         * Set lastName.
          *
-         * @param string $lastname
+         * @param string $lastName
          *
          * @return Employees
          */
-        public function setLastName(string $lastname): self
+        public function setLastName(string $lastName): self
         {
-            $this->lastName = $lastname;
+            $this->lastName = $lastName;
             return $this;
         }
 
@@ -184,20 +183,20 @@
         }
 
         /**
-         * Set jobtitle.
+         * Set jobTitle.
          *
-         * @param string $jobtitle
+         * @param string $jobTitle
          *
          * @return Employees
          */
-        public function setJobTitle(string $jobtitle): self
+        public function setJobTitle(string $jobTitle): self
         {
-            $this->jobTitle = $jobtitle;
+            $this->jobTitle = $jobTitle;
             return $this;
         }
 
         /**
-         * Get jobtitle.
+         * Get jobTitle.
          *
          * @return string
          */
@@ -207,20 +206,20 @@
         }
 
         /**
-         * Set officecode.
+         * Set officeCode.
          *
-         * @param Offices|null $officecode
+         * @param Offices|null $officeCode
          *
          * @return Employees
          */
-        public function setOfficeCode(Offices $officecode = null): self
+        public function setOfficeCode(Offices $officeCode = null): self
         {
-            $this->officeCode = $officecode;
+            $this->officeCode = $officeCode;
             return $this;
         }
 
         /**
-         * Get officecode.
+         * Get officeCode.
          *
          * @return Offices|null
          */
@@ -230,24 +229,24 @@
         }
 
         /**
-         * Set reportsto.
+         * Set reportsTo.
          *
-         * @param Employees|null $reportsto
+         * @param Employees|null $reportsTo
          *
          * @return Employees
          */
-        public function setReportsTo(Employees $reportsto = null): self
+        public function setReportsTo(Employees $reportsTo = null): self
         {
-            $this->reportsTo = $reportsto;
+            $this->reportsTo = $reportsTo;
             return $this;
         }
 
         /**
-         * Get reportsto.
+         * Get reportsTo.
          *
          * @return Employees|null
          */
-        public function getReportsto(): ?Employees
+        public function getReportsTo(): ?Employees
         {
             return $this->reportsTo;
         }

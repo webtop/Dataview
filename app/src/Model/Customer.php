@@ -59,6 +59,24 @@
         }
 
         /**
+         * @throws \Exception
+         */
+        public function validateAddress(array $address_data) {
+            $address_to_validate = $this->setAddress($address_data);
+
+            if (!$address_to_validate->validate()) {
+                if (!$address_to_validate->hasOptions()) {
+                    throw new \Exception('Address is not valid');
+                } else {
+                    $suggested_addresses = $address_to_validate->getOptions();
+
+                }
+            } else {
+                return true;
+            }
+        }
+
+        /**
          * @throws OptimisticLockException
          * @throws ORMException
          * @throws \Exception
@@ -66,17 +84,6 @@
         public function create(array $request_data): Customer {
             foreach ($request_data as $key => &$value) {
                 $value = strip_tags(addslashes(trim($value)));
-            }
-
-            $address_to_validate = new Address($this->entityManager, $this->config);
-            $address_to_validate->setAddressLine1($request_data['addressLine1']);
-            $address_to_validate->setAddressLine2($request_data['addressLine2']);
-            $address_to_validate->setLocality($request_data['city']);
-            $address_to_validate->setAdminDistrict($request_data['state']);
-            $address_to_validate->setPostalCode($request_data['postalCode']);
-            $address_to_validate->setCountryRegion($request_data['country']);
-            if (!$address_to_validate->validate()) {
-                throw new \Exception('Invalid address!');
             }
 
             $customer = new Customers();
@@ -87,10 +94,12 @@
                         $salesRep = $this->entityManager->getRepository(Employees::class)->find($value);
                         $customer->setSalesRepEmployeeNumber($salesRep);
                     }
-                } else if ($key == 'creditLimit') {
-                    $customer->setCreditLimit((int)$value);
                 } else {
-                    $customer->{'set' . $this->inflector->classify($key)}($value);
+                    if ($key == 'creditLimit') {
+                        $customer->setCreditLimit((int)$value);
+                    } else {
+                        $customer->{'set' . $this->inflector->classify($key)}($value);
+                    }
                 }
             }
             $this->entityManager->persist($customer);
@@ -169,5 +178,21 @@
                 }
             }
             return $reps;
+        }
+
+        /**
+         * @param array $request_data
+         * @return Address
+         */
+        private function setAddress(array $request_data): Address
+        {
+            $address_to_validate = new Address($this->entityManager, $this->config);
+            $address_to_validate->setAddressLine1($request_data['addressLine1']);
+            $address_to_validate->setAddressLine2($request_data['addressLine2']);
+            $address_to_validate->setLocality($request_data['city']);
+            $address_to_validate->setAdminDistrict($request_data['state']);
+            $address_to_validate->setPostalCode($request_data['postalCode']);
+            $address_to_validate->setCountryRegion($request_data['country']);
+            return $address_to_validate;
         }
     }

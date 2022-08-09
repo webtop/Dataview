@@ -273,6 +273,35 @@ $(document).ready(() => {
         cancel_edit_state();
     };
 
+    const validate_address = () => {
+        let address = {
+            addressLine1: $('#addressLine1').val(),
+            addressLine2: $('#addressLine2').val(),
+            city: $('#city').val(),
+            state: $('#state').val(),
+            postalCode: $('#postalCode').val(),
+            country: $('#country').val()
+        }
+
+        $.ajax({
+            url: '/data/validate_address',
+            type: 'POST',
+            data: {
+                address: address
+            },
+            success: function (response) {
+                if (response.success) {
+
+                } else {
+
+                }
+            },
+            error: function (response) {
+                show_error('An error occurred while attempting to validate the address.');
+            }
+        });
+    };
+
     const get_row_offsets = ($element) => {
         function getOffsetTop (el) {
             if (el.offsetParent) return el.offsetTop + getOffsetTop(el.offsetParent)
@@ -418,4 +447,5 @@ $(document).ready(() => {
     $('#table_nav_buttons button').on('click', navigate_to);
     $('button#cancel_edit').on('click', cancel_edit);
     $('button#save_edit').on('click', set_save_row);
+    $('button#validate_address').on('click', validate_address);
 });
