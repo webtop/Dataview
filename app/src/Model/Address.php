@@ -7,8 +7,10 @@
     use Psr\Container\ContainerInterface;
     use Psr\Container\NotFoundExceptionInterface;
 
-    class Address extends BaseModel
+    class Address
     {
+        private ?string $apiKey = null;
+
         private string $adminDistrict;
 
         private string $locality;
@@ -27,11 +29,10 @@
 
         private array $options = [];
 
-        public function __construct(EntityManager $entityManager, array $config)
+        public function setApiKey(string $api_key): void
         {
-            parent::__construct($entityManager, $config);
+            $this->apiKey = $api_key;
         }
-
 
         public function setAdminDistrict(string $adminDistrict): void
         {
@@ -82,7 +83,7 @@
          */
         public function validate(): bool
         {
-            $maps_api_key = $this->config['maps_api_key'];
+            $maps_api_key = $this->apiKey ?? getenv('MAPS_API_KEY');
             if (empty($maps_api_key)) {
                 throw new \Exception('Maps API key does not exist. Cannot validate address.');
             }

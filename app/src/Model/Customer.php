@@ -7,18 +7,14 @@
     use App\Controller\IndexController;
     use App\Entity\Customers;
     use App\Entity\Employees;
-    use Doctrine\Inflector\Inflector;
-    use Doctrine\Inflector\InflectorFactory;
     use Doctrine\ORM\EntityManager;
     use Doctrine\ORM\Exception\ORMException;
     use Doctrine\ORM\OptimisticLockException;
-    use Monolog\Logger;
-    use Psr\Container\ContainerExceptionInterface;
-    use Psr\Container\NotFoundExceptionInterface;
-    use Psr\Container\ContainerInterface;
 
 
     class Customer extends BaseModel {
+
+        protected string $entity = 'Customers';
 
         public function getAll(): array {
             $customers = [];
@@ -113,7 +109,6 @@
          */
         public function update(array $updated_data): Customer {
             $customer = $this->entityManager->getRepository(Customers::class)->find($updated_data['customerNumber']);
-            $inflector = InflectorFactory::create()->build();
             foreach ($updated_data as $key => &$value) {
                 if ($key === 'customerNumber') {
                     continue;
@@ -125,7 +120,7 @@
                     $customer->setContactFirstname($value[0]);
                     $customer->setContactLastname($value[1]);
                 } else {
-                    $customer->{'set' . $inflector->classify($key)}($value);
+                    $customer->{'set' . $this->inflector->classify($key)}($value);
                 }
             }
             $this->entityManager->persist($customer);

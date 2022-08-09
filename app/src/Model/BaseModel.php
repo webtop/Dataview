@@ -9,8 +9,9 @@
     abstract class BaseModel
     {
         protected EntityManager $entityManager;
-        protected \Doctrine\Inflector\Inflector $inflector;
+        protected InflectorFactory $inflector;
         protected array $config;
+        private string $currentEntity;
 
         /**
          * During model initialization we get a count of the max number of records in the model table.
@@ -21,11 +22,13 @@
         {
             $this->entityManager = $entityManager;
             $this->config = $config;
-            $this->inflector = InflectorFactory::create()->build();
-            if (empty($_SESSION['db']['cursor_max_position'])) {
-                $max = $entityManager->getRepository(Customers::class)->count([]);
-                $_SESSION['db']['cursor_max_position'] = $max;
-            }
+            $this->inflector = new InflectorFactory();
+            $this->inflector->create()->build();
+
+            $max = $entityManager->getRepository($this->entity)->count([]);
+            $_SESSION['db']['cursor_max_position'] = $max;
+            $_SESSION['db']['cursor_position'] = 0;
+
         }
 
     }
