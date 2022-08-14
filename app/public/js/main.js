@@ -5,8 +5,10 @@ $(document).ready(() => {
     let current_max = 0;
 
     const PER_PAGE = 20;
-    //const action_bar = new ActionNavBar();
-    //action_bar.init('.action_nav_bar');
+
+    let action_nav_bar = $('caption');
+    action_nav_bar.slideUp();
+    action_nav_bar.css('display', 'normal');
 
     if ($('form#new_record').length > 0) {
         $('form#new_record input:first').focus();
@@ -96,7 +98,7 @@ $(document).ready(() => {
 
     const unhide_table_buttons = (item) => {
         $('#positional_data').removeClass('invisible');
-        $('#main_content_table caption').removeClass('invisible');
+        $('#main_content_table caption').slideDown();
     };
 
     const navigate_to = () => {
@@ -115,7 +117,6 @@ $(document).ready(() => {
         buttons.on('click', edit_row);
         buttons.removeClass('invisible').parent().removeClass('hidden');
         $('table#main_content_table thead tr th:first-child').text('Edit').removeClass('hidden');
-        $('.action_nav_bar button').attr('disabled', 'disabled');
     }
 
     const cancel_edit_state = () => {
@@ -125,9 +126,6 @@ $(document).ready(() => {
         $('div#floated_action_buttons').hide();
         $('table#main_content_table thead tr th:first-child').addClass('hidden');
         $('table#main_content_table').removeClass('editing');
-        $('.action_nav_bar button').removeAttr('disabled');
-
-        update_navigation(current_position, current_max);
     }
 
     const set_delete_state = () => {
@@ -138,7 +136,6 @@ $(document).ready(() => {
           .parent().removeClass('hidden');
         buttons.on('click', delete_row);
         $('table#main_content_table thead tr th:first-child').text('Delete').removeClass('hidden');
-        $('.action_nav_bar button').attr('disabled', 'disabled');
     }
 
     const cancel_delete_state = () => {
@@ -148,9 +145,6 @@ $(document).ready(() => {
         $('div#floated_action_buttons').hide();
         $('table#main_content_table thead tr th:first-child').addClass('hidden');
         $('table#main_content_table').removeClass('deleting');
-        $('.action_nav_bar button').removeAttr('disabled');
-
-        update_navigation(current_position, current_max);
     }
 
     const delete_row = (evt) => {
@@ -207,11 +201,6 @@ $(document).ready(() => {
         }).show();
 
         $('.edit_buttons').addClass('invisible');
-        $('div#table_action_buttons').find('button[data-action="edit"]')
-          .removeClass('bi-x-circle')
-          .addClass('bi-pencil')
-          .attr('data-action', 'edit')
-          .attr('disabled', 'disabled');
     };
 
     const set_save_row = (evt) => {
@@ -328,9 +317,44 @@ $(document).ready(() => {
 
     update_state();
 
-    $('button#new_row_cancel').on('click', () => {
-        location.href = '/data';
-    });
+    // set up our action bar listeners
+    const action_bar = new ActionNavBar();
+    action_bar.init('.action_nav_bar');
+    $('.action_nav_bar')
+      .on('edit', (evt) => {
+          set_edit_state();
+          action_bar.update_button_states('edit', (button) => {
+              button.removeClass('bi-pencil')
+                .addClass('bi-x-circle')
+                .attr('data-action', 'cancel')
+                .removeAttr('disabled');
+        });
+      })
+      .on('delete', (evt) => {
+          set_delete_state();
+          action_bar.update_button_states('delete', (button) => {
+              button.removeClass('bi-trash')
+                .addClass('bi-x-circle')
+                .attr('data-action', 'cancel-delete')
+                .removeAttr('disabled');
+          });
+      })
+      .on('navigate', (evt) => {
+          navigate_to();
+      })
+      .on('cancel', (evt) => {
+          let button = $(evt.target).find('button:not([disabled="disabled"])');
+          let btn_id = button.attr('id');
+          if (btn_id === 'edit') {
+              cancel_edit_state();
+          } else if (btn_id === 'delete') {
+              cancel_delete_state();
+          }
+          action_bar.reset_button_states();
+      })
+      .on('add', () => {
+          location.href = '/new/' + $('#table_selector option:selected').val();
+      });
 
     $('button#test').on('click', () => {
         $('form button').attr('disabled', 'disabled');
@@ -405,47 +429,49 @@ $(document).ready(() => {
         }
     });
 
-    $('#table_action_buttons button').on('click', (evt) => {
-        let button = $(evt.target);
-        let headers = $('table#main_content_table thead tr');
-        let rows = $('table#main_content_table tbody tr');
-        switch (button.attr('data-action')) {
-            case 'edit':
-                set_edit_state();
-                button.removeClass('bi-pencil')
-                  .addClass('bi-x-circle')
-                  .attr('data-action', 'cancel-edit')
-                  .removeAttr('disabled');
-                break;
-            case 'add':
-                location.href = '/new/' + $('#table_selector option:selected').val();
-                break;
-            case 'delete':
-                set_delete_state();
-                button.removeClass('bi-trash')
-                  .addClass('bi-x-circle')
-                  .attr('data-action', 'cancel-delete')
-                  .removeAttr('disabled');
-                break;
-            case 'cancel-edit':
-                cancel_edit_state();
-                button.removeClass('bi-x-circle')
-                  .addClass('bi-pencil')
-                  .attr('data-action', 'edit')
-                  .blur();
-                break;
-            case 'cancel-delete':
-                cancel_delete_state();
-                button.removeClass('bi-x-circle')
-                  .addClass('bi-trash')
-                  .attr('data-action', 'delete')
-                  .blur();
-                break;
-        }
-    });
+    // $('#table_action_buttons button').on('click', (evt) => {
+    //     let button = $(evt.target);
+    //     let headers = $('table#main_content_table thead tr');
+    //     let rows = $('table#main_content_table tbody tr');
+    //     switch (button.attr('data-action')) {
+    //         case 'edit':
+    //             set_edit_state();
+    //             button.removeClass('bi-pencil')
+    //               .addClass('bi-x-circle')
+    //               .attr('data-action', 'cancel-edit')
+    //               .removeAttr('disabled');
+    //             break;
+    //         case 'add':
+    //             location.href = '/new/' + $('#table_selector option:selected').val();
+    //             break;
+    //         case 'delete':
+    //             set_delete_state();
+    //             button.removeClass('bi-trash')
+    //               .addClass('bi-x-circle')
+    //               .attr('data-action', 'cancel-delete')
+    //               .removeAttr('disabled');
+    //             break;
+    //         case 'cancel-edit':
+    //             cancel_edit_state();
+    //             button.removeClass('bi-x-circle')
+    //               .addClass('bi-pencil')
+    //               .attr('data-action', 'edit')
+    //               .blur();
+    //             break;
+    //         case 'cancel-delete':
+    //             cancel_delete_state();
+    //             button.removeClass('bi-x-circle')
+    //               .addClass('bi-trash')
+    //               .attr('data-action', 'delete')
+    //               .blur();
+    //             break;
+    //     }
+    // });
 
-    $('#table_nav_buttons button').on('click', navigate_to);
-    $('button#cancel_edit').on('click', cancel_edit);
     $('button#save_edit').on('click', set_save_row);
     $('button#validate_address').on('click', validate_address);
+    $('button#new_row_cancel').on('click', () => {
+        location.href = '/data';
+    });
+
 });
